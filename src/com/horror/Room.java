@@ -4,15 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Room {
-    String name;
-    String description;
-    Map<String, Room> neighbors;
-    Map<String, Item> items;
-    Map<String, Enemy> enemies;
-    Map<String, Furniture> furniture;
+    private String name;
+    private String description;
+    private Map<String, Room> neighbors;
+    private Map<String, Item> items;
+    private Map<String, Enemy> enemies;
+    private Map<String, Furniture> furniture;
     
     public Room() {
-        this("Default Room", "Default Description",
+        this("Default Room", "Default Description");
+    }
+    
+    public Room(String name, String description) {
+        this(name, description,
                 new HashMap<String, Room>(), new HashMap<String, Item>(),
                 new HashMap<String, Enemy>(),new HashMap<String, Furniture>());
     }
@@ -26,6 +30,41 @@ public class Room {
         this.setItems(items);
         this.setEnemies(enemies);
         this.setFurniture(furniture);
+    }
+    
+    public String getFullDescription() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getName());
+        builder.append("\n");
+        builder.append(getDescription());
+    
+        builder.append("\n");
+        
+        builder.append("You see:\n");
+        
+        for(Map.Entry<String, Furniture> entry : getFurniture().entrySet()) {
+            builder.append("\t");
+            builder.append(entry.getValue().getDescription());
+            builder.append("\n");
+        }
+    
+        builder.append("There is:\n");
+    
+        for(Map.Entry<String, Item> entry : getItems().entrySet()) {
+            builder.append("\t");
+            builder.append(entry.getValue().getDescription());
+            builder.append("\n");
+        }
+    
+        builder.append("Who's here:\n");
+    
+        for(Map.Entry<String, Enemy> entry : getEnemies().entrySet()) {
+            builder.append("\t");
+            builder.append(entry.getValue().getDescription());
+            builder.append("\n");
+        }
+        
+        return builder.toString();
     }
     
     public void addNeighbor(String name, Room room) {

@@ -1,8 +1,8 @@
 package com.horror;
 
 public abstract class Character {
-    String name;
-    Room currentRoom;
+    private String name;
+    private Room currentRoom;
     
     public Character(String name, Room startRoom) {
         this.name = name;
