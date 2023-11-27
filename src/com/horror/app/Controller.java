@@ -50,7 +50,9 @@ public class Controller {
             String selectedOption = checkInput();
             switch (selectedOption) {
                 case "1":
-                    System.out.println("New Game Starting...");
+                    clearScreen();
+                    System.out.println("New Game Started!");
+                    System.out.println(">");
                     System.exit(0);
                     break;
                 case "2":
