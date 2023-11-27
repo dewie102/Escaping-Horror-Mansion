@@ -1,8 +1,13 @@
 package com.horror.app;
 
+import java.util.Map;
 import java.util.Scanner;
 
+import com.horror.json.JsonTextLoader;
+
 public class Controller {
+    
+    Map<String, String> gameText;
 
     private void clearScreen() {
         System.out.print("\033[H\033[2J");
@@ -32,15 +37,9 @@ public class Controller {
     }
 
     private void printStory() {
-        System.out.println("\nYou are caught in a storm on your way home from work in a small town, you can't see the road in the bad weather.\n" +
-                "Desperate for shelter until the weather clears, you spot a house. Heading to the door, you notice it's abandoned. Entering the house, you find it dark, so you use your phone torch.\n" +
-                "Tired from work, you find a bedroom with a broken bed frame. You put your jacket on the broken bed and lay down, and eventually fall asleep.\n" + "\n" +
-                "You are woken up by a spooky noise, you look around, but there's no one.\n" +
-                "The strange sound seems to come from outside. Using your phone's light, a shadow shows up, making the abandoned house feel even creepier.\n" +
-                "As you try to figure things out, a cold breeze suddenly sweeps through the room, making you feel more uneasy, like the old house has secrets.\n" +
-                "Now, you need to find a way out of this scary place.\n"
-        );
-
+        System.out.println(gameText.get("backstory"));
+        System.out.println(gameText.get("introduction"));
+        
         System.out.println("Please choose one of the options from below.\n1. Start a New Game\n2. Quit\n");
         System.out.print("Please enter your choice here: ");
     }
@@ -67,6 +66,7 @@ public class Controller {
     }
 
     public void execute() {
+        initialize();
         clearScreen();
         printBanner();
 
@@ -81,5 +81,9 @@ public class Controller {
                 System.out.println("Invalid Option, please try again");
             }
         }
+    }
+    
+    private void initialize() {
+        gameText = JsonTextLoader.loadHashMapFromFile("resources/story.json");
     }
 }
