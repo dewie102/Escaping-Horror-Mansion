@@ -44,15 +44,21 @@ public class Controller {
         System.out.print("Please enter your choice here: ");
     }
 
+    private void playGame() {
+        while (true) {
+            System.out.print("> ");
+            CommandHandler.handleInput(checkInput());
+        }
+    }
+
     private void handleUserChoice() {
         while (true) {
             String selectedOption = checkInput();
             switch (selectedOption) {
                 case "1":
                     clearScreen();
-                    System.out.println("New Game Started!");
-                    System.out.println("> ");
-                    System.exit(0);
+                    System.out.println("New Game Started, please enter a command!");
+                    playGame();
                     break;
                 case "2":
                     System.out.println("Quitting the game...");
