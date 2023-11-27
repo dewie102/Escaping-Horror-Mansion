@@ -1,0 +1,33 @@
+{
+  "bedroom": {
+    "name": "Master Bedroom",
+    "description": "Basic description",
+    "neighbors": {
+      "NORTH": "livingroom",
+      "EAST": "library"
+    },
+    "items": {},
+    "enemies": {},
+    "furniture": {}
+  },
+  "livingroom": {
+    "name": "Living Room",
+    "description": "Basic description",
+    "neighbors": {
+      "SOUTH": "bedroom"
+    },
+    "items": {},
+    "enemies": {},
+    "furniture": {}
+  },
+  "library": {
+    "name": "Library",
+    "description": "Basic description",
+    "neighbors": {
+      "WEST": "bedroom"
+    },
+    "items": {},
+    "enemies": {},
+    "furniture": {}
+  }
+}

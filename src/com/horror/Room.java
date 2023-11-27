@@ -6,7 +6,7 @@ import java.util.Map;
 public class Room {
     private String name;
     private String description;
-    private Map<String, Room> neighbors;
+    private Map<Direction, String> neighbors;
     private Map<String, Item> items;
     private Map<String, Enemy> enemies;
     private Map<String, Furniture> furniture;
@@ -17,12 +17,12 @@ public class Room {
     
     public Room(String name, String description) {
         this(name, description,
-                new HashMap<String, Room>(), new HashMap<String, Item>(),
+                new HashMap<Direction, String>(), new HashMap<String, Item>(),
                 new HashMap<String, Enemy>(),new HashMap<String, Furniture>());
     }
     
     public Room(String name, String description,
-                Map<String, Room> neighbors, Map<String, Item> items,
+                Map<Direction, String> neighbors, Map<String, Item> items,
                 Map<String, Enemy> enemies, Map<String, Furniture> furniture) {
         this.setName(name);
         this.setDescription(description);
@@ -67,12 +67,12 @@ public class Room {
         return builder.toString();
     }
     
-    public void addNeighbor(String name, Room room) {
-        neighbors.put(name, room);
+    public void addNeighbor(Direction direction, String roomName) {
+        neighbors.put(direction, roomName);
     }
     
-    public void removeNeighbor(String name) {
-        neighbors.remove(name);
+    public void removeNeighbor(Direction direction) {
+        neighbors.remove(direction);
     }
     
     public void addItem(String name, Item item) {
@@ -115,11 +115,11 @@ public class Room {
         this.description = description;
     }
     
-    public Map<String, Room> getNeighbors() {
+    public Map<Direction, String> getNeighbors() {
         return neighbors;
     }
     
-    private void setNeighbors(Map<String, Room> neighbors) {
+    private void setNeighbors(Map<Direction, String> neighbors) {
         this.neighbors = neighbors;
     }
     
