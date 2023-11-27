@@ -8,6 +8,6 @@ class QuitCommand implements Command{
 
     @Override
     public void execute() {
-        System.out.println("Quitting the game!");
+        InputHandler.confirmQuit();
     }
 }
