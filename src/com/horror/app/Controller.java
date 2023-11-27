@@ -2,11 +2,14 @@ package com.horror.app;
 
 import java.util.Map;
 
+import com.horror.Room;
 import com.horror.json.JsonTextLoader;
 
 public class Controller {
     
     Map<String, String> gameText;
+    Map<String, Room> rooms;
+    
 
     private void clearScreen() {
         System.out.print("\033[H\033[2J");
@@ -79,5 +82,6 @@ public class Controller {
     
     private void initialize() {
         gameText = JsonTextLoader.loadHashMapFromFile("resources/story.json");
+        rooms = JsonTextLoader.loadLevelFromFile("resources/level_0.json");
     }
 }

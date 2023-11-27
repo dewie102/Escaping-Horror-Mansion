@@ -3,6 +3,7 @@ package com.horror.json;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import com.horror.Room;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -24,5 +25,20 @@ public class JsonTextLoader {
         }
         
         return result;
+    }
+    
+    public static Map<String, Room> loadLevelFromFile(String filepath) {
+        Map<String, Room> rooms = new HashMap<>();
+        
+        try {
+            Gson gson = new Gson();
+            JsonReader reader = new JsonReader(new FileReader(Path.of(filepath).toFile()));
+            
+            rooms = gson.fromJson(reader, new TypeToken<Map<String, Room>>(){}.getType());
+        } catch(FileNotFoundException e) {
+            System.out.printf("File not found: %s\n", e);
+        }
+        
+        return rooms;
     }
 }
