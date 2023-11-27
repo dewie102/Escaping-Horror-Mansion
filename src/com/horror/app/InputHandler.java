@@ -12,8 +12,6 @@ class InputHandler {
 
         if (input.isEmpty()) {
             return "continue";
-        } else if (input.equalsIgnoreCase("quit")) {
-            return "quit";
         } else {
             return input;
         }

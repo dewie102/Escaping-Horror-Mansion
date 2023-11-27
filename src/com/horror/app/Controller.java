@@ -29,7 +29,7 @@ public class Controller {
         System.out.println(gameText.get("backstory"));
         System.out.println(gameText.get("introduction"));
         
-        System.out.println("Please choose one of the options from below.\n1. Start a New Game\n2. Quit\n");
+        System.out.println("Please choose one of the options from below.\n1. Start a New Game\n2. Help\n3. Quit");
         System.out.print("Please enter your choice here: ");
     }
 
@@ -50,6 +50,11 @@ public class Controller {
                     playGame();
                     break;
                 case "2":
+                    CommandHandler.handleCommand("help");
+                    System.out.print("Please enter your choice here: ");
+                    handleUserChoice();
+                    break;
+                case "3":
                     CommandHandler.handleCommand("quit");
                     mainGameWindow();
                 default:
@@ -73,6 +78,7 @@ public class Controller {
         while (true) {
             System.out.print("Press Enter to Continue: ");
             if (InputHandler.checkInput().equals("continue")) {
+                clearScreen();
                 mainGameWindow();
             } else {
                 System.out.println("Invalid Option, please try again");
