@@ -17,7 +17,7 @@ class CommandHandler {
                     command.execute();
                 }
             } else {
-                System.out.println("Command should be in `go(verb) south(noun)` format, please try again!");
+                System.out.println("Command should be in `go(verb) south(noun)` format, please type `help` to list commands");
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Type `help` to list commands");
