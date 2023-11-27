@@ -52,7 +52,7 @@ public class Controller {
                 case "1":
                     clearScreen();
                     System.out.println("New Game Started!");
-                    System.out.println(">");
+                    System.out.println("> ");
                     System.exit(0);
                     break;
                 case "2":
