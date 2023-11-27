@@ -8,6 +8,6 @@ class QuitCommand implements Command{
 
     @Override
     public void execute() {
-        InputHandler.confirmQuit();
+        InputHandler.confirmQuit(Controller.scanner);
     }
 }
