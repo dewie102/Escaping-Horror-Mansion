@@ -8,6 +8,6 @@ class LookCommand implements Command{
 
     @Override
     public void execute() {
-        System.out.println("Please enter command with an argument, example: look chair");
+        System.out.println("Please enter command with an argument, example: look chair. Type `help` to list commands");
     }
 }

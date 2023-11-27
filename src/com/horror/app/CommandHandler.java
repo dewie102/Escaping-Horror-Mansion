@@ -20,7 +20,7 @@ class CommandHandler {
                 System.out.println("Command should be in `go(verb) south(noun)` format, please try again!");
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid action type, please enter a valid action.");
+            System.out.println("Type `help` to list commands");
         }
     }
 }
