@@ -1,7 +1,6 @@
 package com.horror.app;
 
 import java.util.Map;
-import java.util.Scanner;
 
 import com.horror.json.JsonTextLoader;
 
@@ -12,19 +11,6 @@ public class Controller {
     private void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
-    }
-
-    private String checkInput() {
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-
-        if (input.isEmpty()) {
-            return "continue";
-        } else if (input.equalsIgnoreCase("quit")) {
-            return "quit";
-        } else {
-            return input;
-        }
     }
 
     private void printBanner() {
@@ -47,13 +33,13 @@ public class Controller {
     private void playGame() {
         while (true) {
             System.out.print("> ");
-            CommandHandler.handleInput(checkInput());
+            CommandHandler.handleCommand(InputHandler.checkInput());
         }
     }
 
     private void handleUserChoice() {
         while (true) {
-            String selectedOption = checkInput();
+            String selectedOption = InputHandler.checkInput();
             switch (selectedOption) {
                 case "1":
                     clearScreen();
@@ -61,14 +47,19 @@ public class Controller {
                     playGame();
                     break;
                 case "2":
-                    System.out.println("Quitting the game...");
-                    System.exit(0);
-                    break;
+                    CommandHandler.handleCommand("quit");
+                    mainGameWindow();
                 default:
                     System.out.println("Please Enter a Valid Option.");
                     System.out.print("Please enter your choice here: ");
             }
         }
+    }
+
+    private void mainGameWindow() {
+        clearScreen();
+        printStory();
+        handleUserChoice();
     }
 
     public void execute() {
@@ -78,11 +69,8 @@ public class Controller {
 
         while (true) {
             System.out.print("Press Enter to Continue: ");
-            if (checkInput().equals("continue")) {
-                clearScreen();
-                printStory();
-                handleUserChoice();
-
+            if (InputHandler.checkInput().equals("continue")) {
+                mainGameWindow();
             } else {
                 System.out.println("Invalid Option, please try again");
             }

@@ -1,7 +1,7 @@
 package com.horror.app;
 
 class CommandHandler {
-    public static void handleInput(String userInput) {
+    public static void handleCommand(String userInput) {
         try {
             String[] commandArgs = userInput.split(" ");
 
