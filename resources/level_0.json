@@ -1,0 +1,86 @@
+{
+  "bedroom": {
+    "name": "Master Bedroom",
+    "description": "You are in the Master Bedroom that feels worn-out, the air is quiet and a bit musty.",
+    "neighbors": {
+      "NORTH": "livingroom",
+      "EAST": "library"
+    },
+    "items": {
+      "bat": {
+        "name": "Wooden Bat",
+        "description": "Wooden BAT leaning against the wall",
+        "lookAtDescription": "You look at it closer... yup it's a bat alright"
+      },
+      "carkey": {
+        "name": "Car Key",
+        "description": "An old car KEY",
+        "lookAtDescription": "You look at the keys, you see a faded GM symbol on it"
+      }
+    },
+    "enemies": {},
+    "furniture": {
+      "bed": {
+        "name": "Bed",
+        "description": "an old, creaky BED that has seen better days",
+        "lookAtDescription": "You look at the bed and see a body shaped indent along with bugs everywhere.... the thought of you sleeping there gives you the shivers"
+      },
+      "dresser": {
+        "name": "Dresser",
+        "description": "A DRESSER sitting in the corner with chipped paint and worn-out handles."
+      }
+    }
+  },
+  "livingroom": {
+    "name": "Living Room",
+    "description": "You find yourself in the living room, a less-than-pleasant sight with faded wallpaper peeling off and untouched dust that likely hasn't been disturbed in years.",
+    "neighbors": {
+      "SOUTH": "bedroom"
+    },
+    "items": {},
+    "enemies": {},
+    "furniture": {
+      "couch": {
+        "name": "Couch",
+        "description": "A dusty old COUCH with a bunch of holes and stains"
+      },
+      "tv": {
+        "name": "TV Stand",
+        "description": "A dilapidated TV stand holding an ancient television"
+      },
+      "rug": {
+        "name": "Rug",
+        "description": "A worn, RUG with faded intricate patterns sprawls across the creaky wooden floor"
+      }
+    }
+  },
+  "library": {
+    "name": "Library",
+    "description": "The library, a place where learning can occur, I wonder if there is anything that I could learn here",
+    "neighbors": {
+      "WEST": "bedroom"
+    },
+    "items": {
+      "books": {
+        "name": "Books",
+        "description": "You see some BOOKS",
+        "lookAtDescription": "Taking a closer look, you see one book that looks out of place"
+      }
+    },
+    "enemies": {},
+    "furniture": {
+      "bookshelf": {
+        "name": "Bookshelf",
+        "description": "One creaky wooden BOOKSHELF, full of books"
+      },
+      "desk": {
+        "name": "Desk",
+        "description": "Your standard DESK, used for reading and writing."
+      },
+      "chair": {
+        "name": "Chair",
+        "description": "In the corner there is one comfy looking CHAIR that is used for reading"
+      }
+    }
+  }
+}
