@@ -1,8 +1,9 @@
 package com.horror;
 
-public class Item {
+public class Item implements Lookable {
     private String name;
     private String description;
+    private String lookAtDescription;
     private boolean hidden;
     
     public Item() {
@@ -13,6 +14,15 @@ public class Item {
         setName(name);
         setDescription(description);
         setHidden(hidden);
+    }
+    
+    @Override
+    public void lookAt() {
+        if(lookAtDescription == null) {
+            System.out.println(description);
+        } else {
+            System.out.println(lookAtDescription);
+        }
     }
     
     public String getName() {

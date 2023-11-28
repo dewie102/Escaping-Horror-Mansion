@@ -9,11 +9,13 @@
     "items": {
       "bat": {
         "name": "Wooden Bat",
-        "description": "Wooden BAT leaning against the wall"
+        "description": "Wooden BAT leaning against the wall",
+        "lookAtDescription": "You look at it closer... yup it's a bat alright"
       },
       "carkey": {
         "name": "Car Key",
-        "description": "An old car KEY"
+        "description": "An old car KEY",
+        "lookAtDescription": "You look at the keys, you see a faded GM symbol on it"
       }
     },
     "enemies": {},

@@ -3,9 +3,10 @@ package com.horror;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Furniture {
+public class Furniture implements Lookable {
     private String name;
     private String description;
+    private String lookAtDescription;
     private Map<String, Item> items;
     
     public Furniture() {
@@ -16,6 +17,15 @@ public class Furniture {
         setName(name);
         setDescription(description);
         setItems(items);
+    }
+    
+    @Override
+    public void lookAt() {
+        if(lookAtDescription == null) {
+            System.out.println(description);
+        } else {
+            System.out.println(lookAtDescription);
+        }
     }
     
     public void addItem(String name, Item item) {
