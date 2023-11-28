@@ -69,10 +69,9 @@ public class Controller {
         scanner.nextLine();
         clearScreen();
         System.out.println();
+        printCurrentRoomDescription();
         
         while (!isGameOver) {
-            System.out.println(player.getCurrentRoom().getFullDescription());
-            
             System.out.print("> ");
             String input = scanner.nextLine();
             CommandHandler.handleCommand(input);
@@ -134,11 +133,23 @@ public class Controller {
         System.exit(0);
     }
     
+    public void printCurrentRoomDescription() {
+        System.out.println(player.getCurrentRoom().getFullDescription());
+    }
+    
     public void setGameOver(boolean gameOver) {
         isGameOver = gameOver;
     }
     
     public Room getCurrentRoom() {
         return player.getCurrentRoom();
+    }
+    
+    public Room getRoomByName(String name) {
+        return rooms.getOrDefault(name, null);
+    }
+    
+    public Player getPlayer() {
+        return player;
     }
 }

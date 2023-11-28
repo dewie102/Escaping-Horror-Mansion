@@ -21,7 +21,7 @@ public abstract class Character {
         return currentRoom;
     }
     
-    public void setCurrentRoom(Room currentRoom) {
+    void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
 }
