@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PC3-Escaping-Horror-Mansion:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PC3_Escaping_Horror_Mansion_jar</output-path>
+    <root id="archive" name="PC3-Escaping-Horror-Mansion.jar">
+      <element id="module-output" name="PC3-Escaping-Horror-Mansion" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/gson-2.10.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
