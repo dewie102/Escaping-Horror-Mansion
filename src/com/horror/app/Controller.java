@@ -12,9 +12,6 @@ public class Controller {
     // Only need one scanner object, making it public static to be accessed anywhere
     public static Scanner scanner = new Scanner(System.in);
     
-    // Create a singleton that can be accessed anywhere
-    private static Controller instance = null;
-    
     // All the game objects the controller keeps track of
     Map<String, String> gameText;
     Map<String, Room> rooms;
@@ -23,7 +20,17 @@ public class Controller {
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
     
+    // Create a singleton that can be accessed anywhere
+    private static Controller instance = null;
     private Controller() {
+    }
+    
+    public static Controller getInstance() {
+        if(instance == null) {
+            instance = new Controller();
+        }
+        
+        return instance;
     }
     
     private void clearScreen() {
@@ -46,15 +53,26 @@ public class Controller {
     }
     
     private void printMenu() {
-        System.out.println("Please choose one of the options from below.\n1. Start a New Game\n2. Help\n3. Quit");
-        System.out.print("Please enter your choice here: ");
+        // Refactor this to be more dynamic, either from file or some enum or fixed array
+        System.out.println("Please choose one of the options from below.");
+        System.out.println("1. Start a New Game");
+        System.out.println("2. Help");
+        System.out.println("3. Quit");
     }
 
     private void playGame() {
         clearScreen();
+        // DEBUG print
+        System.out.println("New Game Started, please enter a command!");
         printStory();
+        System.out.print("Press enter to continue: ");
+        scanner.nextLine();
+        clearScreen();
+        System.out.println();
         
         while (!isGameOver) {
+            System.out.println(player.getCurrentRoom().getFullDescription());
+            
             System.out.print("> ");
             String input = scanner.nextLine();
             CommandHandler.handleCommand(input);
@@ -64,39 +82,30 @@ public class Controller {
     }
 
     // Maybe refactor this into a class?
-    private void handleUserChoice() {
-        boolean isValidInput = false;
-        while (!isValidInput) {
+    private void handleMenuChoice() {
+        boolean startPlaying = false;
+        while (!startPlaying) {
+            System.out.print("Please enter your choice here: ");
             String selectedOption = scanner.nextLine();
             switch (selectedOption) {
-                case "1":
-                    isValidInput = true;
-                    clearScreen();
-                    System.out.println("New Game Started, please enter a command!");
-                    playGame();
+                case "1": // Play
+                    startPlaying = true;
                     break;
-                case "2":
-                    isValidInput = true;
+                case "2": // Help
                     CommandHandler.handleCommand("help");
-                    System.out.print("Please enter your choice here: ");
-                    handleUserChoice();
                     break;
-                case "3":
-                    isValidInput = true;
+                case "3": // Quit
                     CommandHandler.handleCommand("quit");
-                    mainGameWindow();
+                    if(isGameOver) {
+                        exitGame();
+                    }
                     break;
                 default:
                     System.out.println("Please Enter a Valid Option.");
-                    System.out.print("Please enter your choice here: ");
             }
         }
-    }
-
-    private void mainGameWindow() {
-        clearScreen();
-        printStory();
-        handleUserChoice();
+    
+        playGame();
     }
 
     public void execute() {
@@ -111,11 +120,7 @@ public class Controller {
         scanner.nextLine();
         
         printMenu();
-        handleUserChoice();
-    }
-    
-    public void setGameOver(boolean gameOver) {
-        isGameOver = gameOver;
+        handleMenuChoice();
     }
     
     private void initialize() {
@@ -129,11 +134,11 @@ public class Controller {
         System.exit(0);
     }
     
-    public static Controller getInstance() {
-        if(instance == null) {
-            instance = new Controller();
-        }
-        
-        return instance;
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
+    
+    public Room getCurrentRoom() {
+        return player.getCurrentRoom();
     }
 }

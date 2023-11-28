@@ -34,34 +34,38 @@ public class Room {
     
     public String getFullDescription() {
         StringBuilder builder = new StringBuilder();
-        builder.append(getName());
-        builder.append("\n");
         builder.append(getDescription());
     
         builder.append("\n");
         
-        builder.append("You see:\n");
-        
-        for(Map.Entry<String, Furniture> entry : getFurniture().entrySet()) {
-            builder.append("\t");
-            builder.append(entry.getValue().getDescription());
-            builder.append("\n");
+        if(!furniture.isEmpty()) {
+            builder.append("You see:\n");
+    
+            for (Map.Entry<String, Furniture> entry : getFurniture().entrySet()) {
+                builder.append("\t");
+                builder.append(entry.getValue().getDescription());
+                builder.append("\n");
+            }
         }
     
-        builder.append("There is:\n");
+        if(!items.isEmpty()) {
+            builder.append("There is:\n");
     
-        for(Map.Entry<String, Item> entry : getItems().entrySet()) {
-            builder.append("\t");
-            builder.append(entry.getValue().getDescription());
-            builder.append("\n");
+            for (Map.Entry<String, Item> entry : getItems().entrySet()) {
+                builder.append("\t");
+                builder.append(entry.getValue().getDescription());
+                builder.append("\n");
+            }
         }
     
-        builder.append("Who's here:\n");
+        if(!enemies.isEmpty()) {
+            builder.append("Who's here:\n");
     
-        for(Map.Entry<String, Enemy> entry : getEnemies().entrySet()) {
-            builder.append("\t");
-            builder.append(entry.getValue().getDescription());
-            builder.append("\n");
+            for (Map.Entry<String, Enemy> entry : getEnemies().entrySet()) {
+                builder.append("\t");
+                builder.append(entry.getValue().getDescription());
+                builder.append("\n");
+            }
         }
         
         return builder.toString();
