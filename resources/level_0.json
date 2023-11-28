@@ -7,17 +7,26 @@
       "EAST": "library"
     },
     "items": {
-      "bed": {
-        "name": "bed",
-        "description": "an old, creaky BED that has seen better days"
+      "bat": {
+        "name": "Wooden Bat",
+        "description": "Wooden bat leaning against the wall"
       },
-      "dresser": {
-        "name": "dresser",
-        "description": "A DRESSER sitting in the corner with chipped paint and worn-out handles."
+      "carkey": {
+        "name": "Car Key",
+        "description": "An old car key"
       }
     },
     "enemies": {},
-    "furniture": {}
+    "furniture": {
+      "bed": {
+        "name": "Bed",
+        "description": "an old, creaky BED that has seen better days"
+      },
+      "dresser": {
+        "name": "Dresser",
+        "description": "A DRESSER sitting in the corner with chipped paint and worn-out handles."
+      }
+    }
   },
   "livingroom": {
     "name": "Living Room",
@@ -27,16 +36,47 @@
     },
     "items": {},
     "enemies": {},
-    "furniture": {}
+    "furniture": {
+      "couch": {
+        "name": "Couch",
+        "description": "A dusty old couch with a bunch of holes and stains"
+      },
+      "tvstand": {
+        "name": "TV Stand",
+        "description": "A dilapidated tv stand holding an ancient television"
+      },
+      "rug": {
+        "name": "Rug",
+        "description": "A worn, rug with faded intricate patterns sprawls across the creaky wooden floor"
+      }
+    }
   },
   "library": {
     "name": "Library",
-    "description": "Basic description",
+    "description": "The library, a place where learning can occur, I wonder if there is anything that I could learn here",
     "neighbors": {
       "WEST": "bedroom"
     },
-    "items": {},
+    "items": {
+      "books": {
+        "name": "Books",
+        "description": "You see some books"
+      }
+    },
     "enemies": {},
-    "furniture": {}
+    "furniture": {
+      "bookshelf": {
+        "name": "Bookshelf",
+        "description": "One creaky wooden bookshelf, full of books"
+      },
+      "desk": {
+        "name": "Desk",
+        "descirption": "Your standard desk, used for reading and writing."
+      },
+      "chair": {
+        "name": "Chair",
+        "description": "In the corner there is one comfy looking chair that is used for reading"
+      }
+    }
   }
 }

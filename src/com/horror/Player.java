@@ -15,6 +15,12 @@ public class Player extends Character {
         this.setInventory(inventory);
     }
     
+    public void goTo(Room room) {
+        if(room != null) {
+            setCurrentRoom(room);
+        }
+    }
+    
     public Map<String, Item> getInventory() {
         return inventory;
     }

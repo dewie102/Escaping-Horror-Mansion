@@ -141,4 +141,12 @@ public class Controller {
     public Room getCurrentRoom() {
         return player.getCurrentRoom();
     }
+    
+    public Room getRoomByName(String name) {
+        return rooms.getOrDefault(name, null);
+    }
+    
+    public Player getPlayer() {
+        return player;
+    }
 }

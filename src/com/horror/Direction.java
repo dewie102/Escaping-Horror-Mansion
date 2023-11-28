@@ -1,6 +1,6 @@
 package com.horror;
 
-enum Direction {
+public enum Direction {
     NORTH,
     SOUTH,
     EAST,
