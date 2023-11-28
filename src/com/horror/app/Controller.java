@@ -69,10 +69,9 @@ public class Controller {
         scanner.nextLine();
         clearScreen();
         System.out.println();
+        printCurrentRoomDescription();
         
         while (!isGameOver) {
-            System.out.println(player.getCurrentRoom().getFullDescription());
-            
             System.out.print("> ");
             String input = scanner.nextLine();
             CommandHandler.handleCommand(input);
@@ -132,6 +131,10 @@ public class Controller {
     public void exitGame() {
         System.out.println("Quitting.... Thanks for playing!");
         System.exit(0);
+    }
+    
+    public void printCurrentRoomDescription() {
+        System.out.println(player.getCurrentRoom().getFullDescription());
     }
     
     public void setGameOver(boolean gameOver) {

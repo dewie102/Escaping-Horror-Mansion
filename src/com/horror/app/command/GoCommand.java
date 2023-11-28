@@ -12,13 +12,17 @@ class GoCommand implements Command {
         boolean isProperDirection =
                 Arrays.stream(Direction.values()).anyMatch((t) -> t.name().equals(noun.toUpperCase()));
         
-        Direction direction = Direction.valueOf(noun.toUpperCase());
-        
         if(isProperDirection) {
+            // Get the direction object based on the passed in value
+            Direction direction = Direction.valueOf(noun.toUpperCase());
+            // Get the room name, this will be null if the neighbor doesn't exist
             String nextRoomName = Controller.getInstance().getCurrentRoom().getNeighbors().getOrDefault(direction,
                     null);
+            
+            // If the room name exists, move the player into that room
             if(nextRoomName != null) {
                 Controller.getInstance().getPlayer().goTo(Controller.getInstance().getRoomByName(nextRoomName));
+                Controller.getInstance().printCurrentRoomDescription();
             } else { // If the direction provided doesn't lead to a room
                 System.out.printf("Sorry, you can't go %s\n", noun);
             }
