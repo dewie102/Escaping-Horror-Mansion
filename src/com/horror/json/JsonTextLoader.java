@@ -5,39 +5,35 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.horror.Room;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.nio.file.Path;
-import java.util.HashMap;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
+import java.util.Objects;
 
 public class JsonTextLoader {
     public static Map<String, String> loadHashMapFromFile(String filepath) {
-        Map<String, String> result = new HashMap<>();
+        Map<String, String> result;
         
-        try {
-            Gson gson = new Gson();
-            JsonReader reader = new JsonReader(new FileReader(Path.of(filepath).toFile()));
-            
-            result = gson.fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
-        } catch(FileNotFoundException e) {
-            System.out.printf("File not found: %s\n", e);
-        }
+        Gson gson = new Gson();
+        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
+        JsonReader reader =
+                new JsonReader(new InputStreamReader(inStream));
+        
+        result = gson.fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
         
         return result;
     }
     
     public static Map<String, Room> loadLevelFromFile(String filepath) {
-        Map<String, Room> rooms = new HashMap<>();
+        Map<String, Room> rooms;
         
-        try {
-            Gson gson = new Gson();
-            JsonReader reader = new JsonReader(new FileReader(Path.of(filepath).toFile()));
-            
-            rooms = gson.fromJson(reader, new TypeToken<Map<String, Room>>(){}.getType());
-        } catch(FileNotFoundException e) {
-            System.out.printf("File not found: %s\n", e);
-        }
+        Gson gson = new Gson();
+        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
+        JsonReader reader =
+                new JsonReader(new InputStreamReader(inStream));
+        
+        rooms = gson.fromJson(reader, new TypeToken<Map<String, Room>>(){}.getType());
+
         
         return rooms;
     }

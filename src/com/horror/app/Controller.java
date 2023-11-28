@@ -1,6 +1,5 @@
 package com.horror.app;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 import com.apps.util.Console;
@@ -36,8 +35,6 @@ public class Controller {
     }
     
     public static void clearScreen() {
-//        System.out.print("\033[H\033[2J");
-//        System.out.flush();
         Console.clear();
     }
 
@@ -124,8 +121,8 @@ public class Controller {
     }
     
     private void initialize() {
-        gameText = JsonTextLoader.loadHashMapFromFile("resources/story.json");
-        rooms = JsonTextLoader.loadLevelFromFile("resources/level_0.json");
+        gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
+        rooms = JsonTextLoader.loadLevelFromFile("/level_0.json");
         player = new Player("George", rooms.get("bedroom"), null);
     }
     
