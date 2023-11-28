@@ -1,7 +1,9 @@
 package com.horror.app;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
+import com.apps.util.Console;
 
 import com.horror.Player;
 import com.horror.Room;
@@ -33,9 +35,10 @@ public class Controller {
         return instance;
     }
     
-    private void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+    public static void clearScreen() {
+//        System.out.print("\033[H\033[2J");
+//        System.out.flush();
+        Console.clear();
     }
 
     private void printBanner() {
@@ -62,8 +65,6 @@ public class Controller {
 
     private void playGame() {
         clearScreen();
-        // DEBUG print
-        System.out.println("New Game Started, please enter a command!");
         printStory();
         System.out.print("Press enter to continue: ");
         scanner.nextLine();
