@@ -22,7 +22,8 @@
     "furniture": {
       "bed": {
         "name": "Bed",
-        "description": "an old, creaky BED that has seen better days"
+        "description": "an old, creaky BED that has seen better days",
+        "lookAtDescription": "You look at the bed and see a body shaped indent along with bugs everywhere.... the thought of you sleeping there gives you the shivers"
       },
       "dresser": {
         "name": "Dresser",
@@ -62,7 +63,8 @@
     "items": {
       "books": {
         "name": "Books",
-        "description": "You see some BOOKs"
+        "description": "You see some BOOKs",
+        "lookAtDescription": "Taking a closer look, you see one book that looks out of place"
       }
     },
     "enemies": {},
@@ -73,7 +75,7 @@
       },
       "desk": {
         "name": "Desk",
-        "descirption": "Your standard DESK, used for reading and writing."
+        "description": "Your standard DESK, used for reading and writing."
       },
       "chair": {
         "name": "Chair",

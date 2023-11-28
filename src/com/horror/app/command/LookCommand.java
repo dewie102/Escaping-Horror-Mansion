@@ -8,6 +8,7 @@ import java.util.Objects;
 class LookCommand implements Command{
     @Override
     public void execute(String noun) {
+        noun = noun.toLowerCase();
         // Bad implementation to check items and furniture, maybe somehow check lookable items?
         Lookable item = Controller.getInstance().getCurrentRoom().getItems().getOrDefault(noun, null);
         Lookable furniture = Controller.getInstance().getCurrentRoom().getFurniture().getOrDefault(noun, null);
