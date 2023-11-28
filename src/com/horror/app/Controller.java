@@ -62,8 +62,6 @@ public class Controller {
 
     private void playGame() {
         clearScreen();
-        // DEBUG print
-        System.out.println("New Game Started, please enter a command!");
         printStory();
         System.out.print("Press enter to continue: ");
         scanner.nextLine();

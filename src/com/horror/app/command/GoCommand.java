@@ -8,7 +8,7 @@ import java.util.List;
 
 class GoCommand implements Command {
     @Override
-    public void execute(String noun) {
+    public void execute(String noun)  {
         boolean isProperDirection =
                 Arrays.stream(Direction.values()).anyMatch((t) -> t.name().equals(noun.toUpperCase()));
         
@@ -21,6 +21,7 @@ class GoCommand implements Command {
             
             // If the room name exists, move the player into that room
             if(nextRoomName != null) {
+                Controller.clearScreen();
                 Controller.getInstance().getPlayer().goTo(Controller.getInstance().getRoomByName(nextRoomName));
                 Controller.getInstance().printCurrentRoomDescription();
             } else { // If the direction provided doesn't lead to a room
