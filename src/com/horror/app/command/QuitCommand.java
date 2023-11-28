@@ -1,4 +1,7 @@
-package com.horror.app;
+package com.horror.app.command;
+
+import com.horror.app.Controller;
+import com.horror.app.InputHandler;
 
 class QuitCommand implements Command{
     @Override
@@ -8,6 +11,6 @@ class QuitCommand implements Command{
 
     @Override
     public void execute() {
-        InputHandler.confirmQuit();
+        Controller.getInstance().setGameOver(InputHandler.confirmQuit());
     }
 }

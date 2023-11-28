@@ -1,12 +1,21 @@
 {
   "bedroom": {
     "name": "Master Bedroom",
-    "description": "Basic description",
+    "description": "You are in the Master Bedroom that feels worn-out, the air is quiet and a bit musty.",
     "neighbors": {
       "NORTH": "livingroom",
       "EAST": "library"
     },
-    "items": {},
+    "items": {
+      "bed": {
+        "name": "bed",
+        "description": "an old, creaky BED that has seen better days"
+      },
+      "dresser": {
+        "name": "dresser",
+        "description": "A DRESSER sitting in the corner with chipped paint and worn-out handles."
+      }
+    },
     "enemies": {},
     "furniture": {}
   },
