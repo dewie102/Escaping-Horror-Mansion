@@ -34,7 +34,7 @@ public class Controller {
         return instance;
     }
     
-    private void clearScreen() {
+    public static void clearScreen() {
         Console.clear();
     }
 

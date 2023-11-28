@@ -44,7 +44,7 @@
         "name": "Couch",
         "description": "A dusty old COUCH with a bunch of holes and stains"
       },
-      "tvstand": {
+      "tv": {
         "name": "TV Stand",
         "description": "A dilapidated TV stand holding an ancient television"
       },
@@ -63,7 +63,7 @@
     "items": {
       "books": {
         "name": "Books",
-        "description": "You see some BOOKs",
+        "description": "You see some BOOKS",
         "lookAtDescription": "Taking a closer look, you see one book that looks out of place"
       }
     },
