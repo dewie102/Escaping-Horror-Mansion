@@ -5,11 +5,15 @@ import java.util.Scanner;
 
 import com.horror.Player;
 import com.horror.Room;
+import com.horror.app.command.CommandHandler;
 import com.horror.json.JsonTextLoader;
 
 public class Controller {
     // Only need one scanner object, making it public static to be accessed anywhere
     public static Scanner scanner = new Scanner(System.in);
+    
+    // Create a singleton that can be accessed anywhere
+    private static Controller instance = null;
     
     // All the game objects the controller keeps track of
     Map<String, String> gameText;
@@ -17,9 +21,11 @@ public class Controller {
     Player player;
     
     // Variable to keep track if we are still playing or not
-    boolean isPlaying = true;
+    boolean isGameOver = false;
     
-
+    private Controller() {
+    }
+    
     private void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -48,30 +54,38 @@ public class Controller {
         clearScreen();
         printStory();
         
-        while (isPlaying) {
+        while (!isGameOver) {
             System.out.print("> ");
-            CommandHandler.handleCommand(InputHandler.checkInput());
+            String input = scanner.nextLine();
+            CommandHandler.handleCommand(input);
         }
+        
+        exitGame();
     }
 
+    // Maybe refactor this into a class?
     private void handleUserChoice() {
-        
-        while (true) {
-            String selectedOption = InputHandler.checkInput();
+        boolean isValidInput = false;
+        while (!isValidInput) {
+            String selectedOption = scanner.nextLine();
             switch (selectedOption) {
                 case "1":
+                    isValidInput = true;
                     clearScreen();
                     System.out.println("New Game Started, please enter a command!");
                     playGame();
                     break;
                 case "2":
+                    isValidInput = true;
                     CommandHandler.handleCommand("help");
                     System.out.print("Please enter your choice here: ");
                     handleUserChoice();
                     break;
                 case "3":
+                    isValidInput = true;
                     CommandHandler.handleCommand("quit");
                     mainGameWindow();
+                    break;
                 default:
                     System.out.println("Please Enter a Valid Option.");
                     System.out.print("Please enter your choice here: ");
@@ -100,9 +114,26 @@ public class Controller {
         handleUserChoice();
     }
     
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
+    }
+    
     private void initialize() {
         gameText = JsonTextLoader.loadHashMapFromFile("resources/story.json");
         rooms = JsonTextLoader.loadLevelFromFile("resources/level_0.json");
         player = new Player("George", rooms.get("bedroom"), null);
+    }
+    
+    public void exitGame() {
+        System.out.println("Quitting.... Thanks for playing!");
+        System.exit(0);
+    }
+    
+    public static Controller getInstance() {
+        if(instance == null) {
+            instance = new Controller();
+        }
+        
+        return instance;
     }
 }

@@ -1,4 +1,4 @@
-package com.horror.app;
+package com.horror.app.command;
 
 enum ActionType {
     GO,

@@ -1,4 +1,4 @@
-package com.horror.app;
+package com.horror.app.command;
 
 class LookCommand implements Command{
     @Override
