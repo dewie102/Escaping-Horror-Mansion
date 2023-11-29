@@ -4,6 +4,7 @@ enum ActionType {
     GO,
     LOOK,
     GET,
+    DROP,
     HELP,
     QUIT
 }

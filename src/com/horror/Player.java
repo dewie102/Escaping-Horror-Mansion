@@ -39,9 +39,12 @@ public class Player extends Character {
         this.inventory = Objects.requireNonNullElseGet(inventory, HashMap::new);
     }
 
-    public void addInventory(String itemName, Lookable lookableItem) {
-        Item item = (Item) lookableItem;
+    public void addItemToInventory(String itemName, Item item) {
         getInventory().put(itemName, item);
+    }
+
+    public void removeItemFromInventory(String itemName) {
+        getInventory().remove(itemName);
     }
     
     @Override

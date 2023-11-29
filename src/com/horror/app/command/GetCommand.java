@@ -1,5 +1,6 @@
 package com.horror.app.command;
 
+import com.horror.Item;
 import com.horror.Lookable;
 import com.horror.app.Controller;
 
@@ -7,7 +8,7 @@ class GetCommand implements Command {
     @Override
     public void execute(String noun) {
         noun = noun.toLowerCase();
-        Lookable item = Controller.getInstance().getCurrentRoom().getItems().getOrDefault(noun, null);
+        Item item = Controller.getInstance().getCurrentRoom().getItems().getOrDefault(noun, null);
         Lookable furniture = Controller.getInstance().getCurrentRoom().getFurniture().getOrDefault(noun, null);
 
         if (item == null && furniture == null) {
@@ -15,7 +16,7 @@ class GetCommand implements Command {
         } else {
             if (item != null) {
                 // If an item, add to the inventory
-                Controller.getInstance().getPlayer().addInventory(noun, item);
+                Controller.getInstance().getPlayer().addItemToInventory(noun, item);
                 System.out.printf("%s has been added to the inventory!\n", noun);
                 Controller.getInstance().getCurrentRoom().removeItem(noun);
             } else {
