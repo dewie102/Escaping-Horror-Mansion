@@ -38,6 +38,11 @@ public class Player extends Character {
         // If not null assign it, otherwise assign a new hashmap
         this.inventory = Objects.requireNonNullElseGet(inventory, HashMap::new);
     }
+
+    public void addInventory(String itemName, Lookable lookableItem) {
+        Item item = (Item) lookableItem;
+        getInventory().put(itemName, item);
+    }
     
     @Override
     public String toString() {
