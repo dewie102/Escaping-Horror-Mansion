@@ -28,6 +28,11 @@ public class Player extends Character {
     private void setInventory(Map<String, Item> inventory) {
         this.inventory = inventory;
     }
+
+    public void addInventory(String itemName, Lookable lookableItem) {
+        Item item = (Item) lookableItem;
+        getInventory().put(itemName, item);
+    }
     
     @Override
     public String toString() {

@@ -17,6 +17,9 @@ class CommandFactory {
                 case LOOK:
                     commandStorage.put(ActionType.LOOK, new LookCommand());
                     return commandStorage.get(ActionType.LOOK);
+                case GET:
+                    commandStorage.put(ActionType.GET, new GetCommand());
+                    return commandStorage.get(ActionType.GET);
                 case HELP:
                     commandStorage.put(ActionType.HELP, new HelpCommand());
                     return commandStorage.get(ActionType.HELP);
