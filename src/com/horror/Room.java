@@ -67,6 +67,14 @@ public class Room {
                 builder.append("\n");
             }
         }
+    
+        builder.append("There are doors to your:\n");
+    
+        for (Map.Entry<Direction, String> entry : getNeighbors().entrySet()) {
+            builder.append("\t");
+            builder.append(entry.getKey());
+            builder.append("\n");
+        }
         
         return builder.toString();
     }
