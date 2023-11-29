@@ -78,6 +78,16 @@ public class Controller {
         exitGame();
     }
 
+    private void helpMenuHandler() {
+        clearScreen();
+        CommandHandler.handleCommand("help");
+        System.out.print("Press Enter to Go Back: ");
+        scanner.nextLine();
+        clearScreen();
+        printMenu();
+        handleMenuChoice();
+    }
+
     // Maybe refactor this into a class?
     private void handleMenuChoice() {
         boolean startPlaying = false;
@@ -89,7 +99,7 @@ public class Controller {
                     startPlaying = true;
                     break;
                 case "2": // Help
-                    CommandHandler.handleCommand("help");
+                    helpMenuHandler();
                     break;
                 case "3": // Quit
                     CommandHandler.handleCommand("quit");
