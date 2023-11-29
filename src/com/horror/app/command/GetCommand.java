@@ -7,8 +7,8 @@ class GetCommand implements Command {
     @Override
     public void execute(String noun) {
         noun = noun.toLowerCase();
-        Lookable item = Controller.getInstance().getCurrentRoom().getItems().getOrDefault(noun, null);
-        Lookable furniture = Controller.getInstance().getCurrentRoom().getFurniture().getOrDefault(noun, null);
+        Lookable item = Controller.getInstance().getCurrentRoom().getItemMap().getOrDefault(noun, null);
+        Lookable furniture = Controller.getInstance().getCurrentRoom().getFurnitureMap().getOrDefault(noun, null);
 
         if (item == null && furniture == null) {
             System.out.printf("Where do you see %s?\n", noun);
