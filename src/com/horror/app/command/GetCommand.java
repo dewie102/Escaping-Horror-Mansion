@@ -22,8 +22,6 @@ class GetCommand implements Command {
                 // If furniture, print a message that it can't be picked up
                 System.out.printf("You can't pick up %s. It's part of the room.\n", noun);
             }
-
-            System.out.println(Controller.getInstance().getPlayer().getInventory());
         }
     }
 
