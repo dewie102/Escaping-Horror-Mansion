@@ -1,5 +1,6 @@
 package com.horror.app;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import com.apps.util.Console;
@@ -39,14 +40,6 @@ public class Controller {
     }
 
     private void printBanner() {
-        /*System.out.println("███████╗███████╗ ██████╗ █████╗ ██████╗ ██╗███╗   ██╗ ██████╗     ██╗  ██╗ ██████╗ ██████╗ ██████╗  ██████╗ ██████╗     ███╗   ███╗ █████╗ ███╗   ██╗███████╗██╗ ██████╗ ███╗   ██╗\n" +
-                "██╔════╝██╔════╝██╔════╝██╔══██╗██╔══██╗██║████╗  ██║██╔════╝     ██║  ██║██╔═══██╗██╔══██╗██╔══██╗██╔═══██╗██╔══██╗    ████╗ ████║██╔══██╗████╗  ██║██╔════╝██║██╔═══██╗████╗  ██║\n" +
-                "█████╗  ███████╗██║     ███████║██████╔╝██║██╔██╗ ██║██║  ███╗    ███████║██║   ██║██████╔╝██████╔╝██║   ██║██████╔╝    ██╔████╔██║███████║██╔██╗ ██║███████╗██║██║   ██║██╔██╗ ██║\n" +
-                "██╔══╝  ╚════██║██║     ██╔══██║██╔═══╝ ██║██║╚██╗██║██║   ██║    ██╔══██║██║   ██║██╔══██╗██╔══██╗██║   ██║██╔══██╗    ██║╚██╔╝██║██╔══██║██║╚██╗██║╚════██║██║██║   ██║██║╚██╗██║\n" +
-                "███████╗███████║╚██████╗██║  ██║██║     ██║██║ ╚████║╚██████╔╝    ██║  ██║╚██████╔╝██║  ██║██║  ██║╚██████╔╝██║  ██║    ██║ ╚═╝ ██║██║  ██║██║ ╚████║███████║██║╚██████╔╝██║ ╚████║\n" +
-                "╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝\n");*/
-    
-    
         System.out.println(
                 "███████╗ ███████╗  ██████╗  █████╗  ██████╗  ██╗ ███╗   ██╗  ██████╗ \n" +
                 "██╔════╝ ██╔════╝ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║ ████╗  ██║ ██╔════╝ \n" +
@@ -98,6 +91,8 @@ public class Controller {
         printCurrentRoomDescription();
         
         while (!isGameOver) {
+            System.out.println();
+            player.displayInventory();
             System.out.print("> ");
             String input = scanner.nextLine();
             CommandHandler.handleCommand(input);
@@ -161,7 +156,7 @@ public class Controller {
     private void initialize() {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
         rooms = JsonTextLoader.loadLevelFromFile("/level_0.json");
-        player = new Player("George", rooms.get("bedroom"), null);
+        player = new Player("George", rooms.get("bedroom"), new HashMap<>());
     }
     
     public void exitGame() {
