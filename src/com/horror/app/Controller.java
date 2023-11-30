@@ -82,19 +82,23 @@ public class Controller {
         System.out.println("2. Help");
         System.out.println("3. Quit");
     }
+    
+    private void printCharacterStatus() {
+        printCurrentRoomDescription();
+    
+        System.out.println();
+        player.displayInventory();
+    }
 
     private void playGame() {
         clearScreen();
         printStory();
         System.out.print("Press enter to continue: ");
         scanner.nextLine();
-        clearScreen();
-        System.out.println();
-        printCurrentRoomDescription();
         
         while (!isGameOver) {
-            System.out.println();
-            player.displayInventory();
+            clearScreen();
+            printCharacterStatus();
             System.out.print("> ");
             String input = scanner.nextLine();
             CommandHandler.handleCommand(input);

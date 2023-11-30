@@ -23,7 +23,6 @@ class GoCommand implements Command {
             if(nextRoomName != null) {
                 Controller.clearScreen();
                 Controller.getInstance().getPlayer().goTo(Controller.getInstance().getRoomByName(nextRoomName));
-                Controller.getInstance().printCurrentRoomDescription();
             } else { // If the direction provided doesn't lead to a room
                 System.out.printf("Sorry, you can't go %s\n", noun);
             }
