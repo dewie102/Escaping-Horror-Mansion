@@ -1,5 +1,6 @@
 package com.horror.app;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import com.apps.util.Console;
@@ -14,9 +15,12 @@ public class Controller {
     public static Scanner scanner = new Scanner(System.in);
     
     // All the game objects the controller keeps track of
-    Map<String, String> gameText;
-    Map<String, Room> rooms;
-    Player player;
+    private Map<String, String> gameText;
+    private Map<String, Room> rooms;
+    private Player player;
+    private int currentLevel = 0;
+    private String lastCommandOutput = "";
+    
     
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
@@ -39,12 +43,32 @@ public class Controller {
     }
 
     private void printBanner() {
-        System.out.println("███████╗███████╗ ██████╗ █████╗ ██████╗ ██╗███╗   ██╗ ██████╗     ██╗  ██╗ ██████╗ ██████╗ ██████╗  ██████╗ ██████╗     ███╗   ███╗ █████╗ ███╗   ██╗███████╗██╗ ██████╗ ███╗   ██╗\n" +
-                "██╔════╝██╔════╝██╔════╝██╔══██╗██╔══██╗██║████╗  ██║██╔════╝     ██║  ██║██╔═══██╗██╔══██╗██╔══██╗██╔═══██╗██╔══██╗    ████╗ ████║██╔══██╗████╗  ██║██╔════╝██║██╔═══██╗████╗  ██║\n" +
-                "█████╗  ███████╗██║     ███████║██████╔╝██║██╔██╗ ██║██║  ███╗    ███████║██║   ██║██████╔╝██████╔╝██║   ██║██████╔╝    ██╔████╔██║███████║██╔██╗ ██║███████╗██║██║   ██║██╔██╗ ██║\n" +
-                "██╔══╝  ╚════██║██║     ██╔══██║██╔═══╝ ██║██║╚██╗██║██║   ██║    ██╔══██║██║   ██║██╔══██╗██╔══██╗██║   ██║██╔══██╗    ██║╚██╔╝██║██╔══██║██║╚██╗██║╚════██║██║██║   ██║██║╚██╗██║\n" +
-                "███████╗███████║╚██████╗██║  ██║██║     ██║██║ ╚████║╚██████╔╝    ██║  ██║╚██████╔╝██║  ██║██║  ██║╚██████╔╝██║  ██║    ██║ ╚═╝ ██║██║  ██║██║ ╚████║███████║██║╚██████╔╝██║ ╚████║\n" +
-                "╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝\n");
+        System.out.println(
+                "███████╗ ███████╗  ██████╗  █████╗  ██████╗  ██╗ ███╗   ██╗  ██████╗ \n" +
+                "██╔════╝ ██╔════╝ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║ ████╗  ██║ ██╔════╝ \n" +
+                "█████╗   ███████╗ ██║      ███████║ ██████╔╝ ██║ ██╔██╗ ██║ ██║  ███╗\n" +
+                "██╔══╝   ╚════██║ ██║      ██╔══██║ ██╔═══╝  ██║ ██║╚██╗██║ ██║   ██║\n" +
+                "███████╗ ███████║ ╚██████╗ ██║  ██║ ██║      ██║ ██║ ╚████║ ╚██████╔╝\n" +
+                "╚══════╝ ╚══════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═╝      ╚═╝ ╚═╝  ╚═══╝  ╚═════╝ \n"
+        );
+        
+        System.out.println(
+                "██╗  ██╗  ██████╗  ██████╗  ██████╗   ██████╗  ██████╗ \n" +
+                "██║  ██║ ██╔═══██╗ ██╔══██╗ ██╔══██╗ ██╔═══██╗ ██╔══██╗\n" +
+                "███████║ ██║   ██║ ██████╔╝ ██████╔╝ ██║   ██║ ██████╔╝\n" +
+                "██╔══██║ ██║   ██║ ██╔══██╗ ██╔══██╗ ██║   ██║ ██╔══██╗\n" +
+                "██║  ██║ ╚██████╔╝ ██║  ██║ ██║  ██║ ╚██████╔╝ ██║  ██║\n" +
+                "╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝\n"
+        );
+        
+        System.out.println(
+                "███╗   ███╗  █████╗  ███╗   ██╗ ███████╗ ██╗  ██████╗  ███╗   ██╗\n" +
+                "████╗ ████║ ██╔══██╗ ████╗  ██║ ██╔════╝ ██║ ██╔═══██╗ ████╗  ██║\n" +
+                "██╔████╔██║ ███████║ ██╔██╗ ██║ ███████╗ ██║ ██║   ██║ ██╔██╗ ██║\n" +
+                "██║╚██╔╝██║ ██╔══██║ ██║╚██╗██║ ╚════██║ ██║ ██║   ██║ ██║╚██╗██║\n" +
+                "██║ ╚═╝ ██║ ██║  ██║ ██║ ╚████║ ███████║ ██║ ╚██████╔╝ ██║ ╚████║\n" +
+                "╚═╝     ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═════╝  ╚═╝  ╚═══╝\n"
+        );
     }
 
     private void printStory() {
@@ -59,23 +83,44 @@ public class Controller {
         System.out.println("2. Help");
         System.out.println("3. Quit");
     }
+    
+    private void printCharacterStatus() {
+        printCurrentRoomDescription();
+    
+        System.out.println();
+        player.displayInventory();
+        System.out.println();
+    }
 
     private void playGame() {
         clearScreen();
         printStory();
         System.out.print("Press enter to continue: ");
         scanner.nextLine();
-        clearScreen();
-        System.out.println();
-        printCurrentRoomDescription();
         
         while (!isGameOver) {
+            clearScreen();
+            printCharacterStatus();
+            
+            System.out.println(lastCommandOutput);
+            System.out.println();
+            
             System.out.print("> ");
             String input = scanner.nextLine();
-            CommandHandler.handleCommand(input);
+            lastCommandOutput = CommandHandler.handleCommand(input);
         }
         
         exitGame();
+    }
+
+    private void helpMenuHandler() {
+        clearScreen();
+        CommandHandler.handleCommand("help");
+        System.out.print("Press Enter to Go Back: ");
+        scanner.nextLine();
+        clearScreen();
+        printMenu();
+        handleMenuChoice();
     }
 
     // Maybe refactor this into a class?
@@ -89,7 +134,7 @@ public class Controller {
                     startPlaying = true;
                     break;
                 case "2": // Help
-                    CommandHandler.handleCommand("help");
+                    helpMenuHandler();
                     break;
                 case "3": // Quit
                     CommandHandler.handleCommand("quit");
@@ -122,8 +167,15 @@ public class Controller {
     
     private void initialize() {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
-        rooms = JsonTextLoader.loadLevelFromFile("/level_0.json");
-        player = new Player("George", rooms.get("bedroom"), null);
+        loadLevel(currentLevel);
+        player = new Player("George", rooms.get("bedroom"), new HashMap<>());
+    }
+    
+    private void loadLevel(int level) {
+        rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level));
+        for(Room room : rooms.values()) {
+            room.linkHiddenItemsToFurniture();
+        }
     }
     
     public void exitGame() {

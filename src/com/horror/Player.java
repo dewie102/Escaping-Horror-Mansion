@@ -2,6 +2,7 @@ package com.horror;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Player extends Character {
     private Map<String, Item> inventory;
@@ -21,12 +22,29 @@ public class Player extends Character {
         }
     }
     
+    public void displayInventory() {
+        String inventoryString = "Inventory: [ " +
+                String.join(", ", inventory.keySet()) +
+                " ]\n";
+    
+        System.out.println(inventoryString);
+    }
+    
     public Map<String, Item> getInventory() {
         return inventory;
     }
     
     private void setInventory(Map<String, Item> inventory) {
-        this.inventory = inventory;
+        // If not null assign it, otherwise assign a new hashmap
+        this.inventory = Objects.requireNonNullElseGet(inventory, HashMap::new);
+    }
+
+    public void addItemToInventory(String itemName, Item item) {
+        getInventory().put(itemName, item);
+    }
+
+    public void removeItemFromInventory(String itemName) {
+        getInventory().remove(itemName);
     }
     
     @Override

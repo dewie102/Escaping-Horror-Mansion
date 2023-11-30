@@ -6,10 +6,10 @@ import java.util.Map;
 public class Room {
     private String name;
     private String description;
-    private Map<Direction, String> neighbors;
-    private Map<String, Item> items;
-    private Map<String, Enemy> enemies;
-    private Map<String, Furniture> furniture;
+    private Map<Direction, String> neighborMap;
+    private Map<String, Item> itemMap;
+    private Map<String, Enemy> enemyMap;
+    private Map<String, Furniture> furnitureMap;
     
     public Room() {
         this("Default Room", "Default Description");
@@ -17,19 +17,19 @@ public class Room {
     
     public Room(String name, String description) {
         this(name, description,
-                new HashMap<Direction, String>(), new HashMap<String, Item>(),
-                new HashMap<String, Enemy>(),new HashMap<String, Furniture>());
+                new HashMap<>(), new HashMap<>(),
+                new HashMap<>(), new HashMap<>());
     }
     
     public Room(String name, String description,
-                Map<Direction, String> neighbors, Map<String, Item> items,
-                Map<String, Enemy> enemies, Map<String, Furniture> furniture) {
+                Map<Direction, String> neighborMap, Map<String, Item> itemMap,
+                Map<String, Enemy> enemyMap, Map<String, Furniture> furnitureMap) {
         this.setName(name);
         this.setDescription(description);
-        this.setNeighbors(neighbors);
-        this.setItems(items);
-        this.setEnemies(enemies);
-        this.setFurniture(furniture);
+        this.setNeighborMap(neighborMap);
+        this.setItemMap(itemMap);
+        this.setEnemyMap(enemyMap);
+        this.setFurnitureMap(furnitureMap);
     }
     
     public String getFullDescription() {
@@ -38,69 +38,98 @@ public class Room {
     
         builder.append("\n");
         
-        if(!furniture.isEmpty()) {
+        if(!furnitureMap.isEmpty()) {
             builder.append("You see:\n");
     
-            for (Map.Entry<String, Furniture> entry : getFurniture().entrySet()) {
+            for (Map.Entry<String, Furniture> entry : getFurnitureMap().entrySet()) {
                 builder.append("\t");
                 builder.append(entry.getValue().getDescription());
                 builder.append("\n");
             }
         }
     
-        if(!items.isEmpty()) {
+        if(!itemMap.isEmpty()) {
             builder.append("There is:\n");
     
-            for (Map.Entry<String, Item> entry : getItems().entrySet()) {
+            for (Map.Entry<String, Item> entry : getItemMap().entrySet()) {
+                if(!entry.getValue().isHidden()) {
+                    builder.append("\t");
+                    builder.append(entry.getValue().getDescription());
+                    if(entry.getValue().getHiddenLocation() != null) {
+                        builder.append(String.format("\t(Found in %s)", entry.getValue().getHiddenLocation()));
+                    }
+                    builder.append("\n");
+                }
+            }
+        }
+    
+        if(!enemyMap.isEmpty()) {
+            builder.append("Who's here:\n");
+    
+            for (Map.Entry<String, Enemy> entry : getEnemyMap().entrySet()) {
                 builder.append("\t");
                 builder.append(entry.getValue().getDescription());
                 builder.append("\n");
             }
         }
     
-        if(!enemies.isEmpty()) {
-            builder.append("Who's here:\n");
+        builder.append("There are doors to your:\n");
     
-            for (Map.Entry<String, Enemy> entry : getEnemies().entrySet()) {
-                builder.append("\t");
-                builder.append(entry.getValue().getDescription());
-                builder.append("\n");
-            }
+        for (Map.Entry<Direction, String> entry : getNeighborMap().entrySet()) {
+            builder.append("\t");
+            builder.append(entry.getKey());
+            builder.append("\n");
         }
         
         return builder.toString();
     }
     
+    public void linkHiddenItemsToFurniture() {
+        for(Map.Entry<String, Item> itemEntry : itemMap.entrySet()) {
+            // If the item is hidden get the hiding location
+            if(itemEntry.getValue().isHidden()) {
+                Furniture furniture = furnitureMap.getOrDefault(itemEntry.getValue().getHiddenLocation(), null);
+                // If the location is not valid just return
+                if(furniture == null) {
+                    return;
+                }
+                
+                // Add the item in the furniture to be found or gotten
+                furniture.addItem(itemEntry.getKey(), itemEntry.getValue());
+            }
+        }
+    }
+    
     public void addNeighbor(Direction direction, String roomName) {
-        neighbors.put(direction, roomName);
+        neighborMap.put(direction, roomName);
     }
     
     public void removeNeighbor(Direction direction) {
-        neighbors.remove(direction);
+        neighborMap.remove(direction);
     }
     
     public void addItem(String name, Item item) {
-        items.put(name, item);
+        itemMap.put(name, item);
     }
     
     public void removeItem(String name) {
-        items.remove(name);
+        itemMap.remove(name);
     }
     
     public void addEnemy(String name, Enemy enemy) {
-        enemies.put(name, enemy);
+        enemyMap.put(name, enemy);
     }
     
     public void removeEnemy(String name) {
-        enemies.remove(name);
+        enemyMap.remove(name);
     }
     
-    public void addFurniture(String name, Furniture furn) {
-        furniture.put(name, furn);
+    public void addFurniture(String name, Furniture furniture) {
+        furnitureMap.put(name, furniture);
     }
     
     public void removeFurniture(String name) {
-        furniture.remove(name);
+        furnitureMap.remove(name);
     }
     
     public String getName() {
@@ -119,35 +148,35 @@ public class Room {
         this.description = description;
     }
     
-    public Map<Direction, String> getNeighbors() {
-        return neighbors;
+    public Map<Direction, String> getNeighborMap() {
+        return neighborMap;
     }
     
-    private void setNeighbors(Map<Direction, String> neighbors) {
-        this.neighbors = neighbors;
+    private void setNeighborMap(Map<Direction, String> neighborMap) {
+        this.neighborMap = neighborMap;
     }
     
-    public Map<String, Item> getItems() {
-        return items;
+    public Map<String, Item> getItemMap() {
+        return itemMap;
     }
     
-    private void setItems(Map<String, Item> items) {
-        this.items = items;
+    private void setItemMap(Map<String, Item> itemMap) {
+        this.itemMap = itemMap;
     }
     
-    public Map<String, Enemy> getEnemies() {
-        return enemies;
+    public Map<String, Enemy> getEnemyMap() {
+        return enemyMap;
     }
     
-    private void setEnemies(Map<String, Enemy> enemies) {
-        this.enemies = enemies;
+    private void setEnemyMap(Map<String, Enemy> enemyMap) {
+        this.enemyMap = enemyMap;
     }
     
-    public Map<String, Furniture> getFurniture() {
-        return furniture;
+    public Map<String, Furniture> getFurnitureMap() {
+        return furnitureMap;
     }
     
-    private void setFurniture(Map<String, Furniture> furniture) {
-        this.furniture = furniture;
+    private void setFurnitureMap(Map<String, Furniture> furnitureMap) {
+        this.furnitureMap = furnitureMap;
     }
 }

@@ -5,6 +5,7 @@ public class Item implements Lookable {
     private String description;
     private String lookAtDescription;
     private boolean hidden;
+    private String hiddenLocation;
     
     public Item() {
         this("Default Name", "Default Description", false);
@@ -17,11 +18,11 @@ public class Item implements Lookable {
     }
     
     @Override
-    public void lookAt() {
+    public String lookAt() {
         if(lookAtDescription == null) {
-            System.out.println(description);
+            return description;
         } else {
-            System.out.println(lookAtDescription);
+            return lookAtDescription;
         }
     }
     
@@ -47,6 +48,10 @@ public class Item implements Lookable {
     
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+    
+    public String getHiddenLocation() {
+        return hiddenLocation;
     }
     
     @Override
