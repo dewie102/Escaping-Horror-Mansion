@@ -1,12 +1,15 @@
 package com.horror.json;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import com.horror.Enemy;
+import com.horror.Monster;
 import com.horror.Room;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,16 +28,31 @@ public class JsonTextLoader {
     }
     
     public static Map<String, Room> loadLevelFromFile(String filepath) {
+
         Map<String, Room> rooms;
-        
-        Gson gson = new Gson();
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Enemy.class, (JsonDeserializer<Enemy>) (json, typeOfT, context) -> {
+            Gson g = new Gson();
+            JsonObject enemyObj = json.getAsJsonObject();
+
+            if (enemyObj.has("@type")) {
+                String type = enemyObj.get("@type").getAsString();
+                if ("monster".equals(type)) {
+                    return g.fromJson(json, Monster.class);
+                }
+                // ghosts
+            }
+
+            return g.fromJson(json, Enemy.class);
+        });
+
+        Gson gson = gsonBuilder.create();
         InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
         JsonReader reader =
                 new JsonReader(new InputStreamReader(inStream));
-        
-        rooms = gson.fromJson(reader, new TypeToken<Map<String, Room>>(){}.getType());
 
-        
+        rooms = gson.fromJson(reader, new TypeToken<Map<String, Room>>(){}.getType());
         return rooms;
     }
-}
+    }

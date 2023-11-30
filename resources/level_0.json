@@ -39,7 +39,13 @@
       "SOUTH": "bedroom"
     },
     "itemMap": {},
-    "enemyMap": {},
+    "enemyMap": {
+      "monster": {
+        "@type": "monster",
+        "name": "Living Room Monster",
+        "description": "Living Room Monster"
+      }
+    },
     "furnitureMap": {
       "couch": {
         "name": "Couch",
@@ -68,7 +74,13 @@
         "lookAtDescription": "Taking a closer look, you see one book that looks out of place"
       }
     },
-    "enemyMap": {},
+    "enemyMap": {
+      "monster": {
+        "@type": "monster",
+        "name": "Library Monster",
+        "description": "Library Monster"
+      }
+    },
     "furnitureMap": {
       "bookshelf": {
         "name": "Bookshelf",
