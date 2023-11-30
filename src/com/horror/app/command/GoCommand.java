@@ -16,7 +16,7 @@ class GoCommand implements Command {
             // Get the direction object based on the passed in value
             Direction direction = Direction.valueOf(noun.toUpperCase());
             // Get the room name, this will be null if the neighbor doesn't exist
-            String nextRoomName = Controller.getInstance().getCurrentRoom().getNeighbors().getOrDefault(direction,
+            String nextRoomName = Controller.getInstance().getCurrentRoom().getNeighborMap().getOrDefault(direction,
                     null);
             
             // If the room name exists, move the player into that room

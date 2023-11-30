@@ -15,9 +15,11 @@ public class Controller {
     public static Scanner scanner = new Scanner(System.in);
     
     // All the game objects the controller keeps track of
-    Map<String, String> gameText;
-    Map<String, Room> rooms;
-    Player player;
+    private Map<String, String> gameText;
+    private Map<String, Room> rooms;
+    private Player player;
+    private int currentLevel = 0;
+    
     
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
@@ -155,8 +157,15 @@ public class Controller {
     
     private void initialize() {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
-        rooms = JsonTextLoader.loadLevelFromFile("/level_0.json");
+        loadLevel(currentLevel);
         player = new Player("George", rooms.get("bedroom"), new HashMap<>());
+    }
+    
+    private void loadLevel(int level) {
+        rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level));
+        for(Room room : rooms.values()) {
+            room.linkHiddenItemsToFurniture();
+        }
     }
     
     public void exitGame() {

@@ -2,11 +2,11 @@
   "bedroom": {
     "name": "Master Bedroom",
     "description": "You are in the Master Bedroom that feels worn-out, the air is quiet and a bit musty.",
-    "neighbors": {
+    "neighborMap": {
       "NORTH": "livingroom",
       "EAST": "library"
     },
-    "items": {
+    "itemMap": {
       "bat": {
         "name": "Wooden Bat",
         "description": "Wooden BAT leaning against the wall",
@@ -15,11 +15,12 @@
       "carkey": {
         "name": "Car Key",
         "description": "An old CARKEY",
-        "lookAtDescription": "You look at the keys, you see a faded GM symbol on it"
+        "lookAtDescription": "You look at the keys, you see a faded GM symbol on it",
+        "hidden": true,
+        "hiddenLocation": "dresser"
       }
     },
-    "enemies": {},
-    "furniture": {
+    "furnitureMap": {
       "bed": {
         "name": "Bed",
         "description": "an old, creaky BED that has seen better days",
@@ -34,12 +35,12 @@
   "livingroom": {
     "name": "Living Room",
     "description": "You find yourself in the living room, a less-than-pleasant sight with faded wallpaper peeling off and untouched dust that likely hasn't been disturbed in years.",
-    "neighbors": {
+    "neighborMap": {
       "SOUTH": "bedroom"
     },
-    "items": {},
-    "enemies": {},
-    "furniture": {
+    "itemMap": {},
+    "enemyMap": {},
+    "furnitureMap": {
       "couch": {
         "name": "Couch",
         "description": "A dusty old COUCH with a bunch of holes and stains"
@@ -57,18 +58,18 @@
   "library": {
     "name": "Library",
     "description": "The library, a place where learning can occur, I wonder if there is anything that I could learn here",
-    "neighbors": {
+    "neighborMap": {
       "WEST": "bedroom"
     },
-    "items": {
+    "itemMap": {
       "books": {
         "name": "Books",
         "description": "You see some BOOKS",
         "lookAtDescription": "Taking a closer look, you see one book that looks out of place"
       }
     },
-    "enemies": {},
-    "furniture": {
+    "enemyMap": {},
+    "furnitureMap": {
       "bookshelf": {
         "name": "Bookshelf",
         "description": "One creaky wooden BOOKSHELF, full of books"
