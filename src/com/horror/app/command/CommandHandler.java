@@ -1,7 +1,7 @@
 package com.horror.app.command;
 
 public class CommandHandler {
-    public static void handleCommand(String userInput) {
+    public static String handleCommand(String userInput) {
         try {
             String[] commandArgs = userInput.split(" ");
 
@@ -12,15 +12,15 @@ public class CommandHandler {
 
                 if (commandArgs.length == 2) {
                     String actionNoun = commandArgs[1];
-                    command.execute(actionNoun);
+                    return command.execute(actionNoun);
                 } else {
-                    command.execute();
+                    return command.execute();
                 }
             } else {
-                System.out.println("Command should be in `go(verb) south(noun)` format, please type `help` to list commands");
+                return "Command should be in `go(verb) south(noun)` format, please type `help` to list commands";
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("Type `help` to list commands");
+            return "Type `help` to list commands";
         }
     }
 }

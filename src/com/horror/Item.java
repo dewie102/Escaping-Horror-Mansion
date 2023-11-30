@@ -18,11 +18,11 @@ public class Item implements Lookable {
     }
     
     @Override
-    public void lookAt() {
+    public String lookAt() {
         if(lookAtDescription == null) {
-            System.out.println(description);
+            return description;
         } else {
-            System.out.println(lookAtDescription);
+            return lookAtDescription;
         }
     }
     

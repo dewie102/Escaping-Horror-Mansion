@@ -1,8 +1,9 @@
 package com.horror.app.command;
 
 public interface Command {
-    void execute(String noun);
+    String execute(String noun);
 
-    default void execute() {
+    default String execute() {
+        return "";
     }
 }
