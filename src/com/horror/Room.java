@@ -55,6 +55,9 @@ public class Room {
                 if(!entry.getValue().isHidden()) {
                     builder.append("\t");
                     builder.append(entry.getValue().getDescription());
+                    if(entry.getValue().getHiddenLocation() != null) {
+                        builder.append(String.format("\t(Found in %s)", entry.getValue().getHiddenLocation()));
+                    }
                     builder.append("\n");
                 }
             }

@@ -26,6 +26,23 @@ public class Furniture implements Lookable {
         } else {
             System.out.println(lookAtDescription);
         }
+        
+        StringBuilder itemList = null;
+        
+        for(Map.Entry<String, Item> itemEntry : items.entrySet()) {
+            if(itemEntry.getValue().isHidden()) {
+                if(itemList == null) {
+                    itemList = new StringBuilder();
+                    itemList.append(String.format("Inside the %s you find:\n", getName()));
+                }
+                itemEntry.getValue().setHidden(false);
+                itemList.append(String.format("\t- %s", itemEntry.getValue().getName()));
+            }
+        }
+        
+        if(itemList != null) {
+            System.out.println(itemList);
+        }
     }
     
     public void addItem(String name, Item item) {

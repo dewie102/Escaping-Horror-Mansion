@@ -1,5 +1,6 @@
 package com.horror.app.command;
 
+import com.horror.Item;
 import com.horror.Lookable;
 import com.horror.app.Controller;
 
@@ -7,7 +8,7 @@ class GetCommand implements Command {
     @Override
     public void execute(String noun) {
         noun = noun.toLowerCase();
-        Lookable item = Controller.getInstance().getCurrentRoom().getItemMap().getOrDefault(noun, null);
+        Item item = Controller.getInstance().getCurrentRoom().getItemMap().getOrDefault(noun, null);
         Lookable furniture = Controller.getInstance().getCurrentRoom().getFurnitureMap().getOrDefault(noun, null);
 
         if (item == null && furniture == null) {
