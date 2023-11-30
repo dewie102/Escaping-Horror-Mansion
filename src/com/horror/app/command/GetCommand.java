@@ -11,7 +11,7 @@ class GetCommand implements Command {
         Item item = Controller.getInstance().getCurrentRoom().getItemMap().getOrDefault(noun, null);
         Lookable furniture = Controller.getInstance().getCurrentRoom().getFurnitureMap().getOrDefault(noun, null);
 
-        if (item == null && furniture == null) {
+        if ((item == null && furniture == null) || (item != null && item.isHidden())) {
             System.out.printf("Where do you see %s?\n", noun);
         } else {
             if (item != null) {
