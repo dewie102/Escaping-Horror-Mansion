@@ -20,11 +20,12 @@ public class Furniture implements Lookable {
     }
     
     @Override
-    public void lookAt() {
+    public String lookAt() {
+        StringBuilder output = new StringBuilder();
         if(lookAtDescription == null) {
-            System.out.println(description);
+            output.append(description);
         } else {
-            System.out.println(lookAtDescription);
+            output.append(lookAtDescription);
         }
         
         StringBuilder itemList = null;
@@ -41,8 +42,10 @@ public class Furniture implements Lookable {
         }
         
         if(itemList != null) {
-            System.out.println(itemList);
+            output.append(itemList);
         }
+        
+        return output.toString();
     }
     
     public void addItem(String name, Item item) {

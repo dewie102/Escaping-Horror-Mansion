@@ -5,12 +5,13 @@ import com.horror.app.InputHandler;
 
 class QuitCommand implements Command{
     @Override
-    public void execute(String noun) {
-        System.out.println("Please enter command `quit` without any argument, Type `help` to list commands");
+    public String execute(String noun) {
+        return String.format("Please enter command `quit` without any argument, Type `help` to list commands");
     }
 
     @Override
-    public void execute() {
+    public String execute() {
         Controller.getInstance().setGameOver(InputHandler.confirmQuit());
+        return "";
     }
 }

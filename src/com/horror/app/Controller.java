@@ -19,6 +19,7 @@ public class Controller {
     private Map<String, Room> rooms;
     private Player player;
     private int currentLevel = 0;
+    private String lastCommandOutput = "";
     
     
     // Variable to keep track if we are still playing or not
@@ -88,6 +89,7 @@ public class Controller {
     
         System.out.println();
         player.displayInventory();
+        System.out.println();
     }
 
     private void playGame() {
@@ -99,9 +101,13 @@ public class Controller {
         while (!isGameOver) {
             clearScreen();
             printCharacterStatus();
+            
+            System.out.println(lastCommandOutput);
+            System.out.println();
+            
             System.out.print("> ");
             String input = scanner.nextLine();
-            CommandHandler.handleCommand(input);
+            lastCommandOutput = CommandHandler.handleCommand(input);
         }
         
         exitGame();
