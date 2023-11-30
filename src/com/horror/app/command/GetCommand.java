@@ -15,7 +15,7 @@ class GetCommand implements Command {
         } else {
             if (item != null) {
                 // If an item, add to the inventory
-                Controller.getInstance().getPlayer().addInventory(noun, item);
+                Controller.getInstance().getPlayer().addItemToInventory(noun, item);
                 System.out.printf("%s has been added to the inventory!\n", noun);
                 Controller.getInstance().getCurrentRoom().removeItem(noun);
             } else {
