@@ -1,5 +1,6 @@
 package com.horror.app.command;
 
+
 class HelpCommand implements Command{
     @Override
     public String execute(String noun) {
@@ -8,10 +9,14 @@ class HelpCommand implements Command{
 
     @Override
     public String execute() {
-        return "Commands:\n" +
-                "- go [direction]\n" +
-                "- look [item]\n" +
-                "- quit\n" +
-                "- help\n";
+        StringBuilder output = new StringBuilder();
+
+        output.append("Commands:\n");
+
+        for(ActionType action : ActionType.values()) {
+            output.append(String.format("\t- %s\n", action.getDisplayString()));
+        }
+
+        return output.toString();
     }
 }

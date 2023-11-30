@@ -80,8 +80,7 @@ public class Controller {
         // Refactor this to be more dynamic, either from file or some enum or fixed array
         System.out.println("Please choose one of the options from below.");
         System.out.println("1. Start a New Game");
-        System.out.println("2. Help");
-        System.out.println("3. Quit");
+        System.out.println("2. Quit");
     }
     
     private void printCharacterStatus() {
@@ -113,16 +112,6 @@ public class Controller {
         exitGame();
     }
 
-    private void helpMenuHandler() {
-        clearScreen();
-        CommandHandler.handleCommand("help");
-        System.out.print("Press Enter to Go Back: ");
-        scanner.nextLine();
-        clearScreen();
-        printMenu();
-        handleMenuChoice();
-    }
-
     // Maybe refactor this into a class?
     private void handleMenuChoice() {
         boolean startPlaying = false;
@@ -133,10 +122,7 @@ public class Controller {
                 case "1": // Play
                     startPlaying = true;
                     break;
-                case "2": // Help
-                    helpMenuHandler();
-                    break;
-                case "3": // Quit
+                case "2": // Quit
                     CommandHandler.handleCommand("quit");
                     if(isGameOver) {
                         exitGame();

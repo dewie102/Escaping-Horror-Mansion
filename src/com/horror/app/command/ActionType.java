@@ -1,10 +1,22 @@
 package com.horror.app.command;
 
 enum ActionType {
-    GO,
-    LOOK,
-    GET,
-    DROP,
-    HELP,
-    QUIT
+    GO("go [direction]"),
+    LOOK("look [item]"),
+    GET("get [item]"),
+    DROP("drop [item]"),
+    HELP("help"),
+    QUIT("quit");
+
+    private final String displayString;
+
+
+    ActionType(String displayString) {
+        this.displayString = displayString;
+    }
+
+    public String getDisplayString() {
+        return displayString;
+    }
+
 }
