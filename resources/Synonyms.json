@@ -1,0 +1,8 @@
+{
+  "GO": ["go", "walk", "move"],
+  "GET": ["get", "grab", "pick up", "take"],
+  "LOOK": ["look", "see", "view", "watch"],
+  "DROP": ["drop", "fall", "leave", "put"],
+  "HELP": ["help", "assist"],
+  "QUIT": ["quit", "exit"]
+}
