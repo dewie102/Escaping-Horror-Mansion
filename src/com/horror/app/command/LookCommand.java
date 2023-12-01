@@ -23,6 +23,6 @@ class LookCommand implements Command{
 
     @Override
     public String execute() {
-        return "";
+        return "Please enter command with an argument, example: look [item]. Type `help` to list commands";
     }
 }

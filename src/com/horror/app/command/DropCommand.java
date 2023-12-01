@@ -20,6 +20,6 @@ class DropCommand implements Command {
 
     @Override
     public String execute() {
-        return Command.super.execute();
+        return "Please enter command with an argument, example: drop [item]. Type `help` to list commands";
     }
 }
