@@ -1,6 +1,6 @@
 package com.horror.app.command;
 
-enum ActionType {
+public enum ActionType {
     GO("go [direction]"),
     LOOK("look [item]"),
     GET("get [item]"),

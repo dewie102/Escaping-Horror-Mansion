@@ -6,10 +6,13 @@ import com.google.gson.stream.JsonReader;
 import com.horror.Enemy;
 import com.horror.Monster;
 import com.horror.Room;
+import com.horror.app.command.ActionType;
+import com.horror.app.command.CommandSynonymHandler;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 
@@ -24,6 +27,18 @@ public class JsonTextLoader {
         
         result = gson.fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
         
+        return result;
+    }
+
+    public static HashMap<ActionType, HashSet<String>> loadActionTypeSynonymsFromFile(String filepath) {
+        HashMap<ActionType, HashSet<String>> result;
+
+        Gson gson = new Gson();
+        InputStream inStream = Objects.requireNonNull(CommandSynonymHandler.class.getResourceAsStream(filepath));
+        JsonReader reader = new JsonReader(new InputStreamReader(inStream));
+
+        result = gson.fromJson(reader, new TypeToken<HashMap<ActionType, HashSet<String>>>(){}.getType());
+
         return result;
     }
     
