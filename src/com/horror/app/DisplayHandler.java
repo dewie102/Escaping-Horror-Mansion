@@ -2,6 +2,7 @@ package com.horror.app;
 
 import com.apps.util.Console;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class DisplayHandler {
     private Map<String, List<String>> gameTitle;
 
     // This is set in the program
-    private String lastCommandOutput;
+    private String lastCommandOutput = "";
 
     public DisplayHandler() {
     }
@@ -38,6 +39,8 @@ public class DisplayHandler {
 
     public void displayBanner() {
         clearScreen();
+        System.out.println(gameTitle.get("text"));
+
         for(String line : gameTitle.get("line1")) {
             System.out.println(line);
         }
@@ -50,12 +53,13 @@ public class DisplayHandler {
     }
 
     public void displayEnterToContinue() {
-        System.out.println(enterToContinue);
+        System.out.print(enterToContinue);
         Controller.scanner.nextLine();
+        clearScreen();
     }
 
     public void displayPrompt() {
-        System.out.println(prompt);
+        System.out.print(prompt);
     }
 
     public void displayLastCommandOutput() {
@@ -66,8 +70,13 @@ public class DisplayHandler {
         System.out.println(commandNotRecognized);
     }
 
-    public void displayMainMenu() {
+    public void displayMainMenu(List<MenuOption> options) {
+        int optionNumber = 1;
 
+        for(MenuOption option : options) {
+            System.out.printf("%s. %s\n", optionNumber, option.toString());
+            optionNumber++;
+        }
     }
 
     public void setLastCommandOutput(String output) {

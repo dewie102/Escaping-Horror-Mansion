@@ -1,8 +1,6 @@
 package com.horror.app;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import com.horror.Player;
 import com.horror.Room;
@@ -21,7 +19,7 @@ public class Controller {
     private Map<String, Room> rooms;
     private Player player;
     private int currentLevel = 0;
-    private String lastCommandOutput = "";
+    private boolean foundSaveGame = false;
     
     
     // Variable to keep track if we are still playing or not
@@ -45,12 +43,12 @@ public class Controller {
         displayHandler.displayTextClearBefore(gameText.get("introduction"), false);
     }
     
-    private void printMenu() {
+    /*private void printMenu() {
         // Refactor this to be more dynamic, either from file or some enum or fixed array
         System.out.println("Please choose one of the options from below.");
         System.out.println("1. Start a New Game");
         System.out.println("2. Quit");
-    }
+    }*/
     
     private void printCharacterStatus() {
         displayHandler.displayTextClearBefore(getCurrentRoom().getFullDescription(), true);
@@ -76,7 +74,7 @@ public class Controller {
     }
 
     // Maybe refactor this into a class?
-    private void handleMenuChoice() {
+    private void handleMenuChoice(List<MenuOption> options) {
         boolean startPlaying = false;
         while (!startPlaying) {
             System.out.print("Please enter your choice here: ");
@@ -105,11 +103,23 @@ public class Controller {
 
         Controller.displayHandler.displayBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
-        System.out.print("Press Enter to Continue: ");
-        scanner.nextLine();
-        
-        printMenu();
-        handleMenuChoice();
+        displayHandler.displayEnterToContinue();
+
+        List<MenuOption> mainMenu = generateMainMenu();
+        displayHandler.displayMainMenu(mainMenu);
+        handleMenuChoice(mainMenu);
+    }
+
+    private List<MenuOption> generateMainMenu() {
+        List<MenuOption> mainMenu = new ArrayList<>();
+
+        mainMenu.add(MenuOption.NEWGAME);
+        if(foundSaveGame) {
+            mainMenu.add(MenuOption.CONTINUE);
+        }
+        mainMenu.add(MenuOption.QUIT);
+
+        return mainMenu;
     }
     
     private void initialize() {

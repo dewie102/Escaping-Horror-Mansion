@@ -3,7 +3,7 @@
   "quit": "Quitting.... Thanks for playing!",
   "mainMenu": {
     "text": "Please choose one of the options from below.",
-    "new_game": "Start a New Game",
+    "newGame": "Start a New Game",
     "continue": "Continue",
     "quit": "Quit"
   },
