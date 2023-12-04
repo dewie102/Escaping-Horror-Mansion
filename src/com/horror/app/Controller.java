@@ -138,8 +138,9 @@ public class Controller {
     }
 
     public void execute() {
-        // Load in resources and create objects needed to start the game
+//////        // Load in resources and create objects needed to start the game
         initialize();
+//        loadSavedGame();
 
         // Clear the screen and print the game title banner
         clearScreen();
@@ -150,6 +151,15 @@ public class Controller {
 
         printMenu();
         handleMenuChoice();
+    }
+
+    private void loadSavedGame() {
+        gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
+        rooms = JsonTextLoader.loadLevelFromFile(String.format("/saved/savedRooms.json", 0));
+        for(Room room : rooms.values()) {
+            room.linkHiddenItemsToFurniture();
+        }
+        player = JsonTextLoader.loadPlayerFromFile("/saved/savedPlayer.json");
     }
 
     private void initialize() {
