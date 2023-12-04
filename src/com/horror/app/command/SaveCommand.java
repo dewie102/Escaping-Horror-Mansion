@@ -11,6 +11,6 @@ class SaveCommand implements Command{
     @Override
     public String execute() {
         Controller.getInstance().saveGame();
-        return "Game has been Saved!";
+        return "Game has been saved!";
     }
 }

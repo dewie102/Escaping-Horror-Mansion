@@ -14,31 +14,31 @@ import com.horror.json.JsonTextSaver;
 public class Controller {
     // Only need one scanner object, making it public static to be accessed anywhere
     public static Scanner scanner = new Scanner(System.in);
-    
+
     // All the game objects the controller keeps track of
     private Map<String, String> gameText;
     private Map<String, Room> rooms;
     private Player player;
     private int currentLevel = 0;
     private String lastCommandOutput = "";
-    
-    
+
+
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
-    
+
     // Create a singleton that can be accessed anywhere
     private static Controller instance = null;
     private Controller() {
     }
-    
+
     public static Controller getInstance() {
         if(instance == null) {
             instance = new Controller();
         }
-        
+
         return instance;
     }
-    
+
     public static void clearScreen() {
         Console.clear();
     }
@@ -52,7 +52,7 @@ public class Controller {
                 "███████╗ ███████║ ╚██████╗ ██║  ██║ ██║      ██║ ██║ ╚████║ ╚██████╔╝\n" +
                 "╚══════╝ ╚══════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═╝      ╚═╝ ╚═╝  ╚═══╝  ╚═════╝ \n"
         );
-        
+
         System.out.println(
                 "██╗  ██╗  ██████╗  ██████╗  ██████╗   ██████╗  ██████╗ \n" +
                 "██║  ██║ ██╔═══██╗ ██╔══██╗ ██╔══██╗ ██╔═══██╗ ██╔══██╗\n" +
@@ -61,7 +61,7 @@ public class Controller {
                 "██║  ██║ ╚██████╔╝ ██║  ██║ ██║  ██║ ╚██████╔╝ ██║  ██║\n" +
                 "╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝\n"
         );
-        
+
         System.out.println(
                 "███╗   ███╗  █████╗  ███╗   ██╗ ███████╗ ██╗  ██████╗  ███╗   ██╗\n" +
                 "████╗ ████║ ██╔══██╗ ████╗  ██║ ██╔════╝ ██║ ██╔═══██╗ ████╗  ██║\n" +
@@ -76,17 +76,17 @@ public class Controller {
         System.out.println(gameText.get("backstory"));
         System.out.println(gameText.get("introduction"));
     }
-    
+
     private void printMenu() {
         // Refactor this to be more dynamic, either from file or some enum or fixed array
         System.out.println("Please choose one of the options from below.");
         System.out.println("1. Start a New Game");
         System.out.println("2. Quit");
     }
-    
+
     private void printCharacterStatus() {
         printCurrentRoomDescription();
-    
+
         System.out.println();
         player.displayInventory();
         System.out.println();
@@ -97,19 +97,19 @@ public class Controller {
         printStory();
         System.out.print("Press enter to continue: ");
         scanner.nextLine();
-        
+
         while (!isGameOver) {
             clearScreen();
             printCharacterStatus();
-            
+
             System.out.println(lastCommandOutput);
             System.out.println();
-            
+
             System.out.print("> ");
             String input = scanner.nextLine();
             lastCommandOutput = CommandHandler.handleCommand(input);
         }
-        
+
         exitGame();
     }
 
@@ -133,31 +133,31 @@ public class Controller {
                     System.out.println("Please Enter a Valid Option.");
             }
         }
-    
+
         playGame();
     }
 
     public void execute() {
         // Load in resources and create objects needed to start the game
         initialize();
-        
+
         // Clear the screen and print the game title banner
         clearScreen();
         printBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
         System.out.print("Press Enter to Continue: ");
         scanner.nextLine();
-        
+
         printMenu();
         handleMenuChoice();
     }
-    
+
     private void initialize() {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
         loadLevel(currentLevel);
         player = new Player("George", rooms.get("bedroom"), new HashMap<>());
     }
-    
+
     private void loadLevel(int level) {
         rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level));
         for(Room room : rooms.values()) {
@@ -166,9 +166,8 @@ public class Controller {
     }
 
     public void saveGame() {
-        System.out.println("Saving the game");
-        JsonTextSaver.saveRoomMapToFile(rooms, "savedGame.json");
-        JsonTextSaver.savePlayerToFile(player, "savedPlayer.json");
+        JsonTextSaver.saveRoomMapToFile(rooms, "resources/saved", "savedRooms.json");
+        JsonTextSaver.savePlayerToFile(player, "resources/saved", "savedPlayer.json");
     }
     
     public void exitGame() {

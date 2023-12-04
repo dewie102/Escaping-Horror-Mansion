@@ -13,35 +13,32 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 public class JsonTextSaver {
-    public static void saveRoomMapToFile(Map<String, Room> roomMap, String filename) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(roomMap);
 
-        Path filePath = Paths.get("resources", filename);
-        System.out.println(filePath);
-        System.out.println(System.getProperty("user.dir"));
+    private static void saveObjectToFile(Object object, String dir, String filename) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonString = gson.toJson(object);
+
+        Path filePath = Paths.get(dir, filename);
+
+        try {
+            Files.createDirectories(filePath.getParent());
+        } catch (IOException e) {
+            System.out.println("Error creating directory: " + e.getMessage());
+            return;
+        }
 
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             writer.write(jsonString);
-
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error writing to file: " + e.getMessage());
         }
     }
 
-    public static void savePlayerToFile(Player player, String filename) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(player);
+    public static void saveRoomMapToFile(Map<String, Room> roomMap, String dir, String filename) {
+        saveObjectToFile(roomMap, dir, filename);
+    }
 
-        Path filePath = Paths.get("resources", filename);
-
-        try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
-            writer.write(jsonString);
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    public static void savePlayerToFile(Player player, String dir, String filename) {
+        saveObjectToFile(player, dir, filename);
     }
 }
-
-
