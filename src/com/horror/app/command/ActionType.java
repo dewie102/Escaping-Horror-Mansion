@@ -6,6 +6,7 @@ public enum ActionType {
     GET("get [item]"),
     DROP("drop [item]"),
     HELP("help"),
+    SAVE("save"),
     QUIT("quit");
 
     private final String displayString;

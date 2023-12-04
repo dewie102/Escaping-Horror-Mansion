@@ -9,6 +9,7 @@ import com.horror.Player;
 import com.horror.Room;
 import com.horror.app.command.CommandHandler;
 import com.horror.json.JsonTextLoader;
+import com.horror.json.JsonTextSaver;
 
 public class Controller {
     // Only need one scanner object, making it public static to be accessed anywhere
@@ -162,6 +163,12 @@ public class Controller {
         for(Room room : rooms.values()) {
             room.linkHiddenItemsToFurniture();
         }
+    }
+
+    public void saveGame() {
+        System.out.println("Saving the game");
+        JsonTextSaver.saveRoomMapToFile(rooms, "savedGame.json");
+        JsonTextSaver.savePlayerToFile(player, "savedPlayer.json");
     }
     
     public void exitGame() {

@@ -4,5 +4,6 @@
   "LOOK": ["look", "see", "view", "watch"],
   "DROP": ["drop", "fall", "leave", "put"],
   "HELP": ["help", "assist"],
+  "SAVE": ["save", "store", "retain"],
   "QUIT": ["quit", "exit"]
 }

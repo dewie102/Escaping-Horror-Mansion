@@ -1,0 +1,50 @@
+{
+  "inventory": {
+    "bat": {
+      "name": "Wooden Bat",
+      "description": "Wooden BAT leaning against the wall",
+      "lookAtDescription": "You look at it closer... yup it\u0027s a bat alright",
+      "hidden": false
+    }
+  },
+  "name": "George",
+  "currentRoom": {
+    "name": "Master Bedroom",
+    "description": "You are in the Master Bedroom that feels worn-out, the air is quiet and a bit musty.",
+    "neighborMap": {
+      "NORTH": "livingroom",
+      "EAST": "library"
+    },
+    "itemMap": {
+      "carkey": {
+        "name": "Car Key",
+        "description": "An old CARKEY",
+        "lookAtDescription": "You look at the keys, you see a faded GM symbol on it",
+        "hidden": true,
+        "hiddenLocation": "dresser"
+      }
+    },
+    "enemyMap": {},
+    "furnitureMap": {
+      "bed": {
+        "name": "Bed",
+        "description": "an old, creaky BED that has seen better days",
+        "lookAtDescription": "You look at the bed and see a body shaped indent along with bugs everywhere.... the thought of you sleeping there gives you the shivers",
+        "items": {}
+      },
+      "dresser": {
+        "name": "Dresser",
+        "description": "A DRESSER sitting in the corner with chipped paint and worn-out handles.",
+        "items": {
+          "carkey": {
+            "name": "Car Key",
+            "description": "An old CARKEY",
+            "lookAtDescription": "You look at the keys, you see a faded GM symbol on it",
+            "hidden": true,
+            "hiddenLocation": "dresser"
+          }
+        }
+      }
+    }
+  }
+}
