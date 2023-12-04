@@ -1,10 +1,12 @@
 package com.horror.app.command;
 
+import com.horror.app.Controller;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandHandler {
-    public static String handleCommand(String userInput) {
+    public static void handleCommand(String userInput) {
 
         // will get ActionType and length of the verb used in the command
         HashMap<ActionType, Integer> actionDetails = CommandSynonymHandler.getActionDetails(userInput);
@@ -21,12 +23,12 @@ public class CommandHandler {
 
                 //
                 if (!itemName.equals("")) {
-                    return command.execute(itemName);
+                    Controller.displayHandler.setLastCommandOutput(command.execute(itemName));
                 }
-                return command.execute();
+                Controller.displayHandler.setLastCommandOutput(command.execute());
             }
         }
 
-        return "Type `help` to list commands";
+        Controller.displayHandler.displayCommandNotRecognized();
 
     }}

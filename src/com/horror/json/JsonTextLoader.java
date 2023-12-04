@@ -6,6 +6,7 @@ import com.google.gson.stream.JsonReader;
 import com.horror.Enemy;
 import com.horror.Monster;
 import com.horror.Room;
+import com.horror.app.DisplayHandler;
 import com.horror.app.command.ActionType;
 import com.horror.app.command.CommandSynonymHandler;
 
@@ -69,5 +70,13 @@ public class JsonTextLoader {
 
         rooms = gson.fromJson(reader, new TypeToken<Map<String, Room>>(){}.getType());
         return rooms;
+    }
+
+    public static DisplayHandler loadDisplayHandlerClass(String filepath) {
+        Gson gson = new Gson();
+        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
+        JsonReader reader = new JsonReader(new InputStreamReader(inStream));
+
+        return gson.fromJson(reader, DisplayHandler.class);
     }
 }

@@ -3,7 +3,6 @@ package com.horror.app;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import com.apps.util.Console;
 
 import com.horror.Player;
 import com.horror.Room;
@@ -13,6 +12,9 @@ import com.horror.json.JsonTextLoader;
 public class Controller {
     // Only need one scanner object, making it public static to be accessed anywhere
     public static Scanner scanner = new Scanner(System.in);
+
+    // Static displayHandler to be used whenever something needs to be displayed
+    public static DisplayHandler displayHandler;
     
     // All the game objects the controller keeps track of
     private Map<String, String> gameText;
@@ -37,43 +39,10 @@ public class Controller {
         
         return instance;
     }
-    
-    public static void clearScreen() {
-        Console.clear();
-    }
-
-    private void printBanner() {
-        System.out.println(
-                "███████╗ ███████╗  ██████╗  █████╗  ██████╗  ██╗ ███╗   ██╗  ██████╗ \n" +
-                "██╔════╝ ██╔════╝ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║ ████╗  ██║ ██╔════╝ \n" +
-                "█████╗   ███████╗ ██║      ███████║ ██████╔╝ ██║ ██╔██╗ ██║ ██║  ███╗\n" +
-                "██╔══╝   ╚════██║ ██║      ██╔══██║ ██╔═══╝  ██║ ██║╚██╗██║ ██║   ██║\n" +
-                "███████╗ ███████║ ╚██████╗ ██║  ██║ ██║      ██║ ██║ ╚████║ ╚██████╔╝\n" +
-                "╚══════╝ ╚══════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═╝      ╚═╝ ╚═╝  ╚═══╝  ╚═════╝ \n"
-        );
-        
-        System.out.println(
-                "██╗  ██╗  ██████╗  ██████╗  ██████╗   ██████╗  ██████╗ \n" +
-                "██║  ██║ ██╔═══██╗ ██╔══██╗ ██╔══██╗ ██╔═══██╗ ██╔══██╗\n" +
-                "███████║ ██║   ██║ ██████╔╝ ██████╔╝ ██║   ██║ ██████╔╝\n" +
-                "██╔══██║ ██║   ██║ ██╔══██╗ ██╔══██╗ ██║   ██║ ██╔══██╗\n" +
-                "██║  ██║ ╚██████╔╝ ██║  ██║ ██║  ██║ ╚██████╔╝ ██║  ██║\n" +
-                "╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝\n"
-        );
-        
-        System.out.println(
-                "███╗   ███╗  █████╗  ███╗   ██╗ ███████╗ ██╗  ██████╗  ███╗   ██╗\n" +
-                "████╗ ████║ ██╔══██╗ ████╗  ██║ ██╔════╝ ██║ ██╔═══██╗ ████╗  ██║\n" +
-                "██╔████╔██║ ███████║ ██╔██╗ ██║ ███████╗ ██║ ██║   ██║ ██╔██╗ ██║\n" +
-                "██║╚██╔╝██║ ██╔══██║ ██║╚██╗██║ ╚════██║ ██║ ██║   ██║ ██║╚██╗██║\n" +
-                "██║ ╚═╝ ██║ ██║  ██║ ██║ ╚████║ ███████║ ██║ ╚██████╔╝ ██║ ╚████║\n" +
-                "╚═╝     ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═════╝  ╚═╝  ╚═══╝\n"
-        );
-    }
 
     private void printStory() {
-        System.out.println(gameText.get("backstory"));
-        System.out.println(gameText.get("introduction"));
+        displayHandler.displayTextClearBefore(gameText.get("backstory"), true);
+        displayHandler.displayTextClearBefore(gameText.get("introduction"), false);
     }
     
     private void printMenu() {
@@ -84,29 +53,23 @@ public class Controller {
     }
     
     private void printCharacterStatus() {
-        printCurrentRoomDescription();
-    
-        System.out.println();
-        player.displayInventory();
-        System.out.println();
+        displayHandler.displayTextClearBefore(getCurrentRoom().getFullDescription(), true);
+        displayHandler.displayTextClearBefore("\n" + player.getInventoryDisplayString() + "\n", false);
     }
 
     private void playGame() {
-        clearScreen();
         printStory();
-        System.out.print("Press enter to continue: ");
-        scanner.nextLine();
+        displayHandler.displayEnterToContinue();
         
         while (!isGameOver) {
-            clearScreen();
             printCharacterStatus();
-            
-            System.out.println(lastCommandOutput);
+
+            displayHandler.displayLastCommandOutput();
             System.out.println();
             
-            System.out.print("> ");
+            displayHandler.displayPrompt();
             String input = scanner.nextLine();
-            lastCommandOutput = CommandHandler.handleCommand(input);
+            CommandHandler.handleCommand(input);
         }
         
         exitGame();
@@ -139,10 +102,8 @@ public class Controller {
     public void execute() {
         // Load in resources and create objects needed to start the game
         initialize();
-        
-        // Clear the screen and print the game title banner
-        clearScreen();
-        printBanner();
+
+        Controller.displayHandler.displayBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
         System.out.print("Press Enter to Continue: ");
         scanner.nextLine();
@@ -155,6 +116,8 @@ public class Controller {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
         loadLevel(currentLevel);
         player = new Player("George", rooms.get("bedroom"), new HashMap<>());
+
+        Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
     }
     
     private void loadLevel(int level) {
@@ -167,10 +130,6 @@ public class Controller {
     public void exitGame() {
         System.out.println("Quitting.... Thanks for playing!");
         System.exit(0);
-    }
-    
-    public void printCurrentRoomDescription() {
-        System.out.println(player.getCurrentRoom().getFullDescription());
     }
     
     public void setGameOver(boolean gameOver) {
