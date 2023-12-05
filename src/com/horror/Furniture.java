@@ -8,6 +8,8 @@ public class Furniture implements Lookable {
     private String description;
     private String lookAtDescription;
     private Map<String, Item> items;
+    private String requires;
+    private String unlocks;
     
     public Furniture() {
         this("Default Name", "Default Description", new HashMap<>());
@@ -74,6 +76,22 @@ public class Furniture implements Lookable {
     
     private void setItems(Map<String, Item> items) {
         this.items = items;
+    }
+    
+    public String getRequires() {
+        return requires;
+    }
+    
+    public void setRequires(String requires) {
+        this.requires = requires;
+    }
+    
+    public String getUnlocks() {
+        return unlocks;
+    }
+    
+    public void setUnlocks(String unlocks) {
+        this.unlocks = unlocks;
     }
     
     @Override

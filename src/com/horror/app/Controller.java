@@ -7,9 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import com.horror.Player;
-import com.horror.Room;
-import com.horror.Usable;
+import com.horror.*;
 import com.horror.app.command.CommandHandler;
 import com.horror.json.JsonTextLoader;
 import com.horror.json.JsonTextSaver;
@@ -218,7 +216,7 @@ public class Controller {
     }
 
     public String useItem(String itemName) {
-        Usable item= player.getInventory().getOrDefault(itemName, null);
+        Usable item = player.getInventory().getOrDefault(itemName, null);
 
         if (item != null) {
             switch (item.use()) {
@@ -229,6 +227,16 @@ public class Controller {
                     } else {
                         return "No monster in the room!";
                     }
+                case FURNITURE:
+                    for(Furniture furn : getCurrentRoom().getFurnitureMap().values()) {
+                        if(itemName.equals(furn.getRequires())) {
+                            Room room = getRoomByName(furn.getUnlocks());
+                            room.setLocked(false);
+                            return String.format("You unlocked: %s", furn.getName());
+                        }
+                    }
+                    
+                    return "There is nothing to use this item on in this room";
                 case NULL:
                 default:
                     return String.format("%s can not be used!", itemName);

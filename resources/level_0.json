@@ -189,7 +189,8 @@
         "lookAtDescription": "Upon closer inspection, the house key appears ordinary yet holds the potential to reveal secrets as it gleams in the dim light.",
         "hidden": true,
         "hiddenLocation": "side table",
-        "usable": true
+        "usable": true,
+        "canBeUsedOn": "furniture"
       }
     },
     "enemyMap": {},
@@ -197,6 +198,12 @@
       "side table": {
         "name": "Side Table",
         "description": "A simple SIDE TABLE, weathered by time and use, standing unassumingly with subtle marks and memories etched into its surface"
+      },
+      "door": {
+        "name": "Front Entrance",
+        "description": "Portal to freedom.... if we could get out.",
+        "requires": "house key",
+        "unlocks": "entranceWin"
       }
     }
   },
