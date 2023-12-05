@@ -1,5 +1,10 @@
 package com.horror.app;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import com.horror.Player;
@@ -22,6 +27,8 @@ public class Controller {
     private int currentLevel = 0;
     private boolean foundSaveGame = true;
     private boolean continuing = false;
+    private static final String SAVED_ROOMS_FILE_PATH = "resources/saved/savedRooms.json";
+    private static final String SAVED_PLAYER_FILE_PATH = "resources/saved/savedPlayer.json";
     
     
     // Variable to keep track if we are still playing or not
@@ -70,7 +77,7 @@ public class Controller {
     }
 
     // Maybe refactor this into a class?
-    private void handleMenuChoice(List<MenuOption> options) {
+    private void handleMenuChoice(List<MenuOption> options) throws IOException {
         boolean startPlaying = false;
         while (!startPlaying) {
             displayHandler.displayMainMenu(options);
@@ -96,6 +103,12 @@ public class Controller {
                 case NEWGAME: // first element in the options list
                     startPlaying = true;
                     loadNewGame(currentLevel);
+                    if (foundSaveGame) {
+                        Files.walk(Paths.get("resources/saved"))
+                                .sorted(Comparator.reverseOrder())
+                                .map(Path::toFile)
+                                .forEach(File::delete);
+                    }
                     break;
                 case QUIT: // // first element in the options list
                     CommandHandler.handleCommand("quit");
@@ -116,7 +129,7 @@ public class Controller {
         playGame();
     }
 
-    public void execute() {
+    public void execute() throws IOException {
 // Load in resources and create objects needed to start the game
         initialize();
 
@@ -158,22 +171,23 @@ public class Controller {
 
     private void initialize() {
         foundSaveGame = lookForSavedGame();
+        if (foundSaveGame) {
+            loadSavedGame();
+        } else {
+            loadNewGame(currentLevel);
+        }
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
         Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
     }
     
     private boolean lookForSavedGame() {
-        boolean found = false;
-    
-        // TODO: check for saved game and set found appropriately
-        // get directory of saved in resources and check if both files exist
-        
-        return found;
+
+        return Files.exists(Paths.get(SAVED_ROOMS_FILE_PATH)) && Files.exists(Paths.get(SAVED_PLAYER_FILE_PATH));
     }
 
     public void saveGame() {
-        JsonTextSaver.saveRoomMapToFile(rooms, "resources/saved/savedRooms.json");
-        JsonTextSaver.savePlayerToFile(player, "resources/saved/savedPlayer.json");
+        JsonTextSaver.saveRoomMapToFile(rooms, SAVED_ROOMS_FILE_PATH);
+        JsonTextSaver.savePlayerToFile(player, SAVED_PLAYER_FILE_PATH);
     }
     
     public void exitGame() {
