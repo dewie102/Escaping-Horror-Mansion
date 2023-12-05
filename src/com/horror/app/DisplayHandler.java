@@ -2,7 +2,6 @@ package com.horror.app;
 
 import com.apps.util.Console;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,15 +38,14 @@ public class DisplayHandler {
 
     public void displayBanner() {
         clearScreen();
-        System.out.println(gameTitle.get("text"));
 
-        for(String line : gameTitle.get("line1")) {
+        for(String line : gameTitle.getOrDefault("line1", List.of("gameTitle:line1"))) {
             System.out.println(line);
         }
-        for(String line : gameTitle.get("line2")) {
+        for(String line : gameTitle.getOrDefault("line2", List.of("gameTitle:line1"))) {
             System.out.println(line);
         }
-        for(String line : gameTitle.get("line3")) {
+        for(String line : gameTitle.getOrDefault("line3", List.of("gameTitle:line1"))) {
             System.out.println(line);
         }
     }
@@ -71,6 +69,8 @@ public class DisplayHandler {
     }
 
     public void displayMainMenu(List<MenuOption> options) {
+        System.out.println(mainMenu.getOrDefault("text", "mainMenu:text"));
+        
         int optionNumber = 1;
 
         for(MenuOption option : options) {

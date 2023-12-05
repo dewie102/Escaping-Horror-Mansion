@@ -52,7 +52,7 @@ public class Controller {
     
     private void printCharacterStatus() {
         displayHandler.displayTextClearBefore(getCurrentRoom().getFullDescription(), true);
-        displayHandler.displayTextClearBefore("\n" + player.getInventoryDisplayString() + "\n", false);
+        displayHandler.displayTextClearBefore("\n" + player.getInventoryDisplayString(), false);
     }
 
     private void playGame() {
@@ -63,7 +63,6 @@ public class Controller {
             printCharacterStatus();
 
             displayHandler.displayLastCommandOutput();
-            System.out.println();
             
             displayHandler.displayPrompt();
             String input = scanner.nextLine();
@@ -78,17 +77,35 @@ public class Controller {
         boolean startPlaying = false;
         while (!startPlaying) {
             System.out.print("Please enter your choice here: ");
-            String selectedOption = scanner.nextLine();
+            String selectedOptionInput = scanner.nextLine();
+            
+            int selectedNumber;
+            try{
+                selectedNumber = Integer.parseInt(selectedOptionInput) - 1;
+            } catch(NumberFormatException e) {
+                System.out.println("Please Enter a Valid Option.");
+                continue;
+            }
+            
+            if(selectedNumber < 0 || selectedNumber >= options.size()) {
+                System.out.println("Please Enter a Valid Option.");
+                continue;
+            }
+            
+            MenuOption selectedOption = options.get(selectedNumber);
+            
             switch (selectedOption) {
-                case "1": // Play
+                case NEWGAME: // first element in the options list
                     startPlaying = true;
                     break;
-                case "2": // Quit
+                case QUIT: // // first element in the options list
                     CommandHandler.handleCommand("quit");
                     if(isGameOver) {
                         exitGame();
                     }
                     break;
+                case CONTINUE:
+                    System.out.println("do something");
                 default:
                     System.out.println("Please Enter a Valid Option.");
             }
@@ -138,7 +155,7 @@ public class Controller {
     }
     
     public void exitGame() {
-        System.out.println("Quitting.... Thanks for playing!");
+        displayHandler.displayQuit();
         System.exit(0);
     }
     

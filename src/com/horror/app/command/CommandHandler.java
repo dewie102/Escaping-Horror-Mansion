@@ -20,15 +20,15 @@ public class CommandHandler {
                 String itemName = userInput.substring(lengthOfMatchedWord).trim();
 
                 Command command = CommandFactory.getCommand(actionType);
-
-                //
+                
                 if (!itemName.equals("")) {
                     Controller.displayHandler.setLastCommandOutput(command.execute(itemName));
+                } else {
+                    Controller.displayHandler.setLastCommandOutput(command.execute());
                 }
-                Controller.displayHandler.setLastCommandOutput(command.execute());
+                return;
             }
         }
 
         Controller.displayHandler.displayCommandNotRecognized();
-
     }}
