@@ -7,16 +7,12 @@ import com.horror.Enemy;
 import com.horror.Monster;
 import com.horror.Player;
 import com.horror.Room;
+import com.horror.app.Controller;
 import com.horror.app.DisplayHandler;
 import com.horror.app.command.ActionType;
-import com.horror.app.command.CommandSynonymHandler;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
 
 public class JsonTextLoader {
 
@@ -40,40 +36,50 @@ public class JsonTextLoader {
 
         return gsonBuilder;
     }
+    
+    public static JsonReader getJsonReader(String filepath, boolean readInsideJar) {
+        if(readInsideJar) {
+            InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
+            return new JsonReader(new InputStreamReader(inStream));
+        } else {
+            try {
+                return new JsonReader(new FileReader(filepath));
+            } catch(FileNotFoundException e) {
+                Controller.displayHandler.displayTextClearBefore(String.format("Error loading in file: %s\n%s",
+                        filepath, Arrays.toString(e.getStackTrace())), true);
+                Controller.getInstance().exitGame();
+                return null;
+            }
+        }
+    }
 
-    public static Map<String, String> loadHashMapFromFile(String filepath) {
+    public static Map<String, String> loadHashMapFromFile(String filepath, boolean readInsideJar) {
         Gson gson = new Gson();
-        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
-        JsonReader reader = new JsonReader(new InputStreamReader(inStream));
+        JsonReader reader = getJsonReader(filepath, readInsideJar);
         return gson.fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
     }
 
-    public static HashMap<ActionType, HashSet<String>> loadActionTypeSynonymsFromFile(String filepath) {
+    public static HashMap<ActionType, HashSet<String>> loadActionTypeSynonymsFromFile(String filepath, boolean readInsideJar) {
         Gson gson = new Gson();
-        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
-        JsonReader reader = new JsonReader(new InputStreamReader(inStream));
+        JsonReader reader = getJsonReader(filepath, readInsideJar);
         return gson.fromJson(reader, new TypeToken<HashMap<ActionType, HashSet<String>>>(){}.getType());
     }
 
-    public static Map<String, Room> loadLevelFromFile(String filepath) {
+    public static Map<String, Room> loadLevelFromFile(String filepath, boolean readInsideJar) {
         Gson gson = registerTypeAdapters().create();
-        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
-        JsonReader reader = new JsonReader(new InputStreamReader(inStream));
+        JsonReader reader = getJsonReader(filepath, readInsideJar);
         return gson.fromJson(reader, new TypeToken<Map<String, Room>>(){}.getType());
     }
 
-    public static Player loadPlayerFromFile(String filepath) {
+    public static Player loadPlayerFromFile(String filepath, boolean readInsideJar) {
         Gson gson = registerTypeAdapters().create();
-        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
-        JsonReader reader = new JsonReader(new InputStreamReader(inStream));
+        JsonReader reader = getJsonReader(filepath, readInsideJar);
         return gson.fromJson(reader, Player.class);
     }
 
-    public static DisplayHandler loadDisplayHandlerClass(String filepath) {
+    public static DisplayHandler loadDisplayHandlerClass(String filepath, boolean readInsideJar) {
         Gson gson = new Gson();
-        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
-        JsonReader reader = new JsonReader(new InputStreamReader(inStream));
-
+        JsonReader reader = getJsonReader(filepath, readInsideJar);
         return gson.fromJson(reader, DisplayHandler.class);
     }
 }

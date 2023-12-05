@@ -32,6 +32,8 @@ public class Controller {
     private int currentLevel = 0;
     private boolean foundSaveGame = true;
     private boolean continuing = false;
+    public boolean readInsideJar = true;
+    
     
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
@@ -106,7 +108,7 @@ public class Controller {
                     startPlaying = true;
                     loadNewGame(currentLevel);
                     if (foundSaveGame) {
-                        Files.walk(Paths.get("resources/saved"))
+                        Files.walk(Paths.get("saved"))
                                 .sorted(Comparator.reverseOrder())
                                 .map(Path::toFile)
                                 .forEach(File::delete);
@@ -156,7 +158,7 @@ public class Controller {
     }
     
     private void loadNewGame(int level) {
-        rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level));
+        rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level), readInsideJar);
         for(Room room : rooms.values()) {
             room.linkHiddenItemsToFurniture();
         }
@@ -164,26 +166,21 @@ public class Controller {
     }
 
     private void loadSavedGame() {
-        rooms = JsonTextLoader.loadLevelFromFile(String.format("/saved/savedRooms.json", currentLevel));
+        boolean readInsideJar = false;
+        rooms = JsonTextLoader.loadLevelFromFile(SAVED_ROOMS_FILE_PATH, readInsideJar);
         for(Room room : rooms.values()) {
             room.linkHiddenItemsToFurniture();
         }
-        player = JsonTextLoader.loadPlayerFromFile("/saved/savedPlayer.json");
+        player = JsonTextLoader.loadPlayerFromFile(SAVED_PLAYER_FILE_PATH, readInsideJar);
     }
 
     private void initialize() {
         foundSaveGame = lookForSavedGame();
-        if (foundSaveGame) {
-            loadSavedGame();
-        } else {
-            loadNewGame(currentLevel);
-        }
-        gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
-        Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
+        gameText = JsonTextLoader.loadHashMapFromFile("/story.json", readInsideJar);
+        Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json", readInsideJar);
     }
     
     private boolean lookForSavedGame() {
-
         return Files.exists(Paths.get(SAVED_ROOMS_FILE_PATH)) && Files.exists(Paths.get(SAVED_PLAYER_FILE_PATH));
     }
 
