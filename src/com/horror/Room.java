@@ -10,6 +10,8 @@ public class Room {
     private Map<String, Item> itemMap;
     private Map<String, Enemy> enemyMap;
     private Map<String, Furniture> furnitureMap;
+    private boolean locked;
+    private String unlockItem;
     
     public Room() {
         this("Default Room", "Default Description");
@@ -178,5 +180,21 @@ public class Room {
     
     private void setFurnitureMap(Map<String, Furniture> furnitureMap) {
         this.furnitureMap = furnitureMap;
+    }
+    
+    public boolean isLocked() {
+        return locked;
+    }
+    
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+    
+    public String getUnlockItem() {
+        return unlockItem;
+    }
+    
+    public void setUnlockItem(String unlockItem) {
+        this.unlockItem = unlockItem;
     }
 }

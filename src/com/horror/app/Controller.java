@@ -7,8 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import com.horror.Item;
 import com.horror.Player;
 import com.horror.Room;
+import com.horror.Usable;
 import com.horror.app.command.CommandHandler;
 import com.horror.json.JsonTextLoader;
 import com.horror.json.JsonTextSaver;
@@ -19,6 +21,9 @@ public class Controller {
 
     // Static displayHandler to be used whenever something needs to be displayed
     public static DisplayHandler displayHandler;
+    // Static FilePaths
+    private static final String SAVED_ROOMS_FILE_PATH = "resources/saved/savedRooms.json";
+    private static final String SAVED_PLAYER_FILE_PATH = "resources/saved/savedPlayer.json";
     
     // All the game objects the controller keeps track of
     private Map<String, String> gameText;
@@ -27,9 +32,6 @@ public class Controller {
     private int currentLevel = 0;
     private boolean foundSaveGame = true;
     private boolean continuing = false;
-    private static final String SAVED_ROOMS_FILE_PATH = "saved/savedRooms.json";
-    private static final String SAVED_PLAYER_FILE_PATH = "saved/savedPlayer.json";
-    
     public boolean readInsideJar = true;
     
     
@@ -206,5 +208,27 @@ public class Controller {
     
     public Player getPlayer() {
         return player;
+    }
+
+    public String useItem(String itemName) {
+        Usable item= player.getInventory().getOrDefault(itemName, null);
+
+        if (item != null) {
+            switch (item.use()) {
+                case MONSTER:
+                    if (getCurrentRoom().getEnemyMap().containsKey("monster")) {
+                        getCurrentRoom().getEnemyMap().remove("monster");
+                        return "You successfully defeated the monster!";
+                    } else {
+                        return "No monster in the room!";
+                    }
+                case NULL:
+                default:
+                    return String.format("%s can not be used!", itemName);
+            }
+        } else {
+            return String.format("%s does not exist in your inventory!", itemName);
+        }
+
     }
 }
