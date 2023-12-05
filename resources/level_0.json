@@ -178,6 +178,7 @@
     "name": "Entrance",
     "description": "You are at the Entrance of the house and the door is locked.",
     "neighborMap": {
+      "NORTH": "entranceWin",
       "SOUTH": "livingroom"
     },
     "itemMap": {
@@ -202,5 +203,11 @@
         "description": "A simple SIDE TABLE, weathered by time and use, standing unassumingly with subtle marks and memories etched into its surface"
       }
     }
+  },
+  "entranceWin": {
+    "name": "Win",
+    "description": "You won the game!",
+    "locked": true,
+    "unlockItem": "house key"
   }
 }
