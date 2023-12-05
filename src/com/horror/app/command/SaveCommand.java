@@ -5,7 +5,7 @@ import com.horror.app.Controller;
 class SaveCommand implements Command{
     @Override
     public String execute(String noun) {
-        return "Please enter command `save` without any argument, Type `help` to list commands";
+        return ActionType.SAVE.getErrorMessage();
     }
 
     @Override

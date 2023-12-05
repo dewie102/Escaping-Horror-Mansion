@@ -36,6 +36,6 @@ class GoCommand implements Command {
 
     @Override
     public String execute() {
-        return "Please enter command with an argument, example: go [direction]. Type `help` to list commands";
+        return ActionType.GO.getErrorMessage();
     }
 }
