@@ -1,5 +1,5 @@
 {
-  "quitConfirm": "Are you sure you want to quit the game [y/n]? : ",
+  "confirmQuitPrompt": "Are you sure you want to quit the game [y/n]? : ",
   "quit": "Quitting.... Thanks for playing!",
   "mainMenu": {
     "text": "Please choose one of the options from below.",
@@ -33,7 +33,9 @@
       "╚═╝     ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═════╝  ╚═╝  ╚═══╝"
     ]
   },
-  "enterToContinue": "Press enter to continue: ",
+  "enterToContinuePrompt": "Press enter to continue: ",
   "prompt": "> ",
-  "commandNotRecognized": "Type `help` to list commands"
+  "commandNotRecognized": "Type `help` to list commands",
+  "menuChoicePrompt": "Please enter your choice here: ",
+  "invalidMenuOptionSelected": "Invalid Response, Please Enter a Valid Option."
 }

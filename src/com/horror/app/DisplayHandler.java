@@ -11,11 +11,13 @@ public class DisplayHandler {
     }
 
     // These variables are loaded in from json
-    private String quitConfirm;
+    private String confirmQuitPrompt;
     private String quit;
-    private String enterToContinue;
+    private String enterToContinuePrompt;
     private String prompt;
     private String commandNotRecognized;
+    private String menuChoicePrompt;
+    private String invalidMenuOptionSelected;
     private Map<String, String> mainMenu;
     private Map<String, List<String>> gameTitle;
 
@@ -35,6 +37,10 @@ public class DisplayHandler {
     public void displayQuit() {
         System.out.println(quit);
     }
+    
+    public void displayConfirmQuitPrompt() {
+        System.out.println(confirmQuitPrompt);
+    }
 
     public void displayBanner() {
         clearScreen();
@@ -50,8 +56,8 @@ public class DisplayHandler {
         }
     }
 
-    public void displayEnterToContinue() {
-        System.out.print(enterToContinue);
+    public void displayEnterToContinuePrompt() {
+        System.out.print(enterToContinuePrompt);
         Controller.scanner.nextLine();
         clearScreen();
     }
@@ -69,6 +75,7 @@ public class DisplayHandler {
     }
 
     public void displayMainMenu(List<MenuOption> options) {
+        clearScreen();
         System.out.println(mainMenu.getOrDefault("text", "mainMenu:text"));
         
         int optionNumber = 1;
@@ -77,6 +84,14 @@ public class DisplayHandler {
             System.out.printf("%s. %s\n", optionNumber, option.toString());
             optionNumber++;
         }
+    }
+    
+    public void displayMenuChoicePrompt() {
+        System.out.println(menuChoicePrompt);
+    }
+    
+    public void displayInvalidMenuOptionSelected() {
+        System.out.println(invalidMenuOptionSelected);
     }
 
     public void setLastCommandOutput(String output) {

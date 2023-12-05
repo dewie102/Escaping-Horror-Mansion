@@ -43,13 +43,6 @@ public class Controller {
         displayHandler.displayTextClearBefore(gameText.get("introduction"), false);
     }
     
-    /*private void printMenu() {
-        // Refactor this to be more dynamic, either from file or some enum or fixed array
-        System.out.println("Please choose one of the options from below.");
-        System.out.println("1. Start a New Game");
-        System.out.println("2. Quit");
-    }*/
-    
     private void printCharacterStatus() {
         displayHandler.displayTextClearBefore(getCurrentRoom().getFullDescription(), true);
         displayHandler.displayTextClearBefore("\n" + player.getInventoryDisplayString(), false);
@@ -57,7 +50,7 @@ public class Controller {
 
     private void playGame() {
         printStory();
-        displayHandler.displayEnterToContinue();
+        displayHandler.displayEnterToContinuePrompt();
         
         while (!isGameOver) {
             printCharacterStatus();
@@ -76,19 +69,20 @@ public class Controller {
     private void handleMenuChoice(List<MenuOption> options) {
         boolean startPlaying = false;
         while (!startPlaying) {
-            System.out.print("Please enter your choice here: ");
+            displayHandler.displayMainMenu(options);
+            displayHandler.displayMenuChoicePrompt();
             String selectedOptionInput = scanner.nextLine();
             
             int selectedNumber;
             try{
                 selectedNumber = Integer.parseInt(selectedOptionInput) - 1;
             } catch(NumberFormatException e) {
-                System.out.println("Please Enter a Valid Option.");
+                displayHandler.displayInvalidMenuOptionSelected();
                 continue;
             }
             
             if(selectedNumber < 0 || selectedNumber >= options.size()) {
-                System.out.println("Please Enter a Valid Option.");
+                displayHandler.displayInvalidMenuOptionSelected();
                 continue;
             }
             
@@ -105,9 +99,10 @@ public class Controller {
                     }
                     break;
                 case CONTINUE:
+                    // TODO: change this for continue action/ prompt
                     System.out.println("do something");
                 default:
-                    System.out.println("Please Enter a Valid Option.");
+                    displayHandler.displayInvalidMenuOptionSelected();
             }
         }
     
@@ -120,10 +115,9 @@ public class Controller {
 
         Controller.displayHandler.displayBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
-        displayHandler.displayEnterToContinue();
+        displayHandler.displayEnterToContinuePrompt();
 
         List<MenuOption> mainMenu = generateMainMenu();
-        displayHandler.displayMainMenu(mainMenu);
         handleMenuChoice(mainMenu);
     }
 
