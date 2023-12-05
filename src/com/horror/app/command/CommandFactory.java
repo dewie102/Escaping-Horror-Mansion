@@ -23,6 +23,9 @@ class CommandFactory {
                 case DROP:
                     commandStorage.put(ActionType.DROP, new DropCommand());
                     return commandStorage.get(ActionType.DROP);
+                case USE:
+                    commandStorage.put(ActionType.USE, new UseCommand());
+                    return commandStorage.get(ActionType.USE);
                 case HELP:
                     commandStorage.put(ActionType.HELP, new HelpCommand());
                     return commandStorage.get(ActionType.HELP);
