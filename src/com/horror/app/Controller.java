@@ -112,8 +112,8 @@ public class Controller {
 
     public void execute() {
 // Load in resources and create objects needed to start the game
-        initialize();
-//        loadSavedGame();
+//        initialize();
+        loadSavedGame();
 
         Controller.displayHandler.displayBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
@@ -142,6 +142,7 @@ public class Controller {
             room.linkHiddenItemsToFurniture();
         }
         player = JsonTextLoader.loadPlayerFromFile("/saved/savedPlayer.json");
+        Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
     }
 
     private void initialize() {

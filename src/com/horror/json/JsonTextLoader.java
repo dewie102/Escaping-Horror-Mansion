@@ -30,7 +30,6 @@ public class JsonTextLoader {
             if (enemyObj.has("type")) {
                 String type = enemyObj.get("type").getAsString();
                 if ("monster".equals(type)) {
-                    System.out.println("Yes, it's a monster");
                     return g.fromJson(json, Monster.class);
                 }
                 // Handle other types if needed
