@@ -14,11 +14,11 @@ import java.util.Map;
 
 public class JsonTextSaver {
 
-    private static void saveObjectToFile(Object object, String dir, String filename) {
+    private static void saveObjectToFile(Object object, String fileName) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(object);
 
-        Path filePath = Paths.get(dir, filename);
+        Path filePath = Paths.get(fileName);
 
         try {
             Files.createDirectories(filePath.getParent());
@@ -34,11 +34,11 @@ public class JsonTextSaver {
         }
     }
 
-    public static void saveRoomMapToFile(Map<String, Room> roomMap, String dir, String filename) {
-        saveObjectToFile(roomMap, dir, filename);
+    public static void saveRoomMapToFile(Map<String, Room> roomMap, String fileName) {
+        saveObjectToFile(roomMap, fileName);
     }
 
-    public static void savePlayerToFile(Player player, String dir, String filename) {
-        saveObjectToFile(player, dir, filename);
+    public static void savePlayerToFile(Player player,String fileName) {
+        saveObjectToFile(player, fileName);
     }
 }

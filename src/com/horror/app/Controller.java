@@ -138,7 +138,7 @@ public class Controller {
     }
 
     public void execute() {
-//////        // Load in resources and create objects needed to start the game
+// Load in resources and create objects needed to start the game
         initialize();
 //        loadSavedGame();
 
@@ -155,7 +155,7 @@ public class Controller {
 
     private void loadSavedGame() {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
-        rooms = JsonTextLoader.loadLevelFromFile(String.format("/saved/savedRooms.json", 0));
+        rooms = JsonTextLoader.loadLevelFromFile(String.format("/saved/savedRooms.json", currentLevel));
         for(Room room : rooms.values()) {
             room.linkHiddenItemsToFurniture();
         }
@@ -176,8 +176,8 @@ public class Controller {
     }
 
     public void saveGame() {
-        JsonTextSaver.saveRoomMapToFile(rooms, "resources/saved", "savedRooms.json");
-        JsonTextSaver.savePlayerToFile(player, "resources/saved", "savedPlayer.json");
+        JsonTextSaver.saveRoomMapToFile(rooms, "resources/saved/savedRooms.json");
+        JsonTextSaver.savePlayerToFile(player, "resources/saved/savedPlayer.json");
     }
     
     public void exitGame() {
