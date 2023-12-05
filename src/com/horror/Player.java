@@ -1,5 +1,7 @@
 package com.horror;
 
+import com.horror.app.Controller;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -19,6 +21,10 @@ public class Player extends Character {
     public void goTo(Room room) {
         if(room != null) {
             setCurrentRoom(room);
+            if(getCurrentRoom().winsGame()) {
+                Controller.getInstance().setGameOver(true);
+                Controller.getInstance().setWonGame(true);
+            }
         }
     }
     

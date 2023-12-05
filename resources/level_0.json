@@ -216,6 +216,7 @@
     "name": "Win",
     "description": "You won the game!",
     "locked": true,
-    "unlockItem": "house key"
+    "unlockItem": "house key",
+    "winsGame": true
   }
 }

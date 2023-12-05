@@ -37,5 +37,6 @@
   "prompt": "> ",
   "commandNotRecognized": "Type `help` to list commands",
   "menuChoicePrompt": "Please enter your choice here: ",
-  "invalidMenuOptionSelected": "Invalid Response, Please Enter a Valid Option."
+  "invalidMenuOptionSelected": "Invalid Response, Please Enter a Valid Option.",
+  "winScreen": "You won the game!\nGood Job!"
 }
