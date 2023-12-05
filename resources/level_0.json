@@ -44,13 +44,7 @@
       "NORTH": "entrance"
     },
     "itemMap": {},
-    "enemyMap": {
-      "monster": {
-        "type": "monster",
-        "name": "Living Room Monster",
-        "description": "Living Room Monster"
-      }
-    },
+    "enemyMap": {},
     "furnitureMap": {
       "couch": {
         "name": "Couch",
@@ -198,13 +192,7 @@
         "usable": true
       }
     },
-    "enemyMap": {
-      "monster": {
-        "type": "monster",
-        "name": "Entrance Monster",
-        "description": "A fearsome Monster guards the entrance door, adding a layer of tension to your surroundings."
-      }
-    },
+    "enemyMap": {},
     "furnitureMap": {
       "side table": {
         "name": "Side Table",
