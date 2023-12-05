@@ -81,7 +81,7 @@ public class DisplayHandler {
         int optionNumber = 1;
 
         for(MenuOption option : options) {
-            System.out.printf("%s. %s\n", optionNumber, option.toString());
+            System.out.printf("%s. %s\n", optionNumber, mainMenu.get(option.toString()));
             optionNumber++;
         }
     }

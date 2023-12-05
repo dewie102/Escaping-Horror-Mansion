@@ -111,8 +111,9 @@ public class Controller {
     }
 
     public void execute() {
-        // Load in resources and create objects needed to start the game
-        initialize();
+// Load in resources and create objects needed to start the game
+//        initialize();
+        loadSavedGame();
 
         Controller.displayHandler.displayBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
@@ -134,6 +135,16 @@ public class Controller {
         return mainMenu;
     }
 
+    private void loadSavedGame() {
+        gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
+        rooms = JsonTextLoader.loadLevelFromFile(String.format("/saved/savedRooms.json", currentLevel));
+        for(Room room : rooms.values()) {
+            room.linkHiddenItemsToFurniture();
+        }
+        player = JsonTextLoader.loadPlayerFromFile("/saved/savedPlayer.json");
+        Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
+    }
+
     private void initialize() {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
         loadLevel(currentLevel);
@@ -150,8 +161,8 @@ public class Controller {
     }
 
     public void saveGame() {
-        JsonTextSaver.saveRoomMapToFile(rooms, "resources/saved", "savedRooms.json");
-        JsonTextSaver.savePlayerToFile(player, "resources/saved", "savedPlayer.json");
+        JsonTextSaver.saveRoomMapToFile(rooms, "resources/saved/savedRooms.json");
+        JsonTextSaver.savePlayerToFile(player, "resources/saved/savedPlayer.json");
     }
     
     public void exitGame() {

@@ -44,7 +44,7 @@
     "itemMap": {},
     "enemyMap": {
       "monster": {
-        "@type": "monster",
+        "type": "monster",
         "name": "Living Room Monster",
         "description": "Living Room Monster"
       }
@@ -80,7 +80,7 @@
     },
     "enemyMap": {
       "monster": {
-        "@type": "monster",
+        "type": "monster",
         "name": "Library Monster",
         "description": "Library Monster"
       }
@@ -122,7 +122,7 @@
     },
     "enemyMap": {
       "monster": {
-        "@type": "monster",
+        "type": "monster",
         "name": "Garage Monster",
         "description": "A scary MONSTER is in the garage, looking at you with big eyes."
       }
@@ -191,7 +191,7 @@
     },
     "enemyMap": {
       "monster": {
-        "@type": "monster",
+        "type": "monster",
         "name": "Entrance Monster",
         "description": "A fearsome Monster guards the entrance door, adding a layer of tension to your surroundings."
       }
