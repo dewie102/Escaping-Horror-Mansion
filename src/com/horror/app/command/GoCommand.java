@@ -1,6 +1,7 @@
 package com.horror.app.command;
 
 import com.horror.Direction;
+import com.horror.Room;
 import com.horror.app.Controller;
 import com.horror.app.DisplayHandler;
 
@@ -22,8 +23,18 @@ class GoCommand implements Command {
             
             // If the room name exists, move the player into that room
             if(nextRoomName != null) {
+                Room nextRoom = Controller.getInstance().getRoomByName(nextRoomName);
+                if(nextRoom.isLocked()) {
+                    if(Controller.getInstance().getPlayer().getInventory().containsKey(nextRoom.getUnlockItem())) {
+                        nextRoom.setLocked(false);
+                        Controller.getInstance().getPlayer().removeItemFromInventory(nextRoom.getUnlockItem());
+                    } else {
+                        return String.format("Sorry, this door appears locked, please obtain '%s'",
+                                nextRoom.getUnlockItem());
+                    }
+                }
                 DisplayHandler.clearScreen();
-                Controller.getInstance().getPlayer().goTo(Controller.getInstance().getRoomByName(nextRoomName));
+                Controller.getInstance().getPlayer().goTo(nextRoom);
                 return "";
             } else { // If the direction provided doesn't lead to a room
                 return String.format("Sorry, you can't go %s\n", noun);

@@ -21,6 +21,9 @@ public class Controller {
 
     // Static displayHandler to be used whenever something needs to be displayed
     public static DisplayHandler displayHandler;
+    // Static FilePaths
+    private static final String SAVED_ROOMS_FILE_PATH = "resources/saved/savedRooms.json";
+    private static final String SAVED_PLAYER_FILE_PATH = "resources/saved/savedPlayer.json";
     
     // All the game objects the controller keeps track of
     private Map<String, String> gameText;
@@ -29,9 +32,6 @@ public class Controller {
     private int currentLevel = 0;
     private boolean foundSaveGame = true;
     private boolean continuing = false;
-    private static final String SAVED_ROOMS_FILE_PATH = "resources/saved/savedRooms.json";
-    private static final String SAVED_PLAYER_FILE_PATH = "resources/saved/savedPlayer.json";
-    
     
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
