@@ -1,5 +1,6 @@
 package com.horror.app.command;
 
+import com.horror.app.Controller;
 import com.horror.json.JsonTextLoader;
 
 import java.util.HashMap;
@@ -11,7 +12,8 @@ public class CommandSynonymHandler {
     private static HashMap<ActionType, HashSet<String>> actionTypeSynonyms = null;
 
     static {
-        actionTypeSynonyms = JsonTextLoader.loadActionTypeSynonymsFromFile("/Synonyms.json");
+        actionTypeSynonyms = JsonTextLoader.loadActionTypeSynonymsFromFile("/Synonyms.json",
+                Controller.getInstance().readInsideJar);
     }
 
     public static HashMap<ActionType, Integer> getActionDetails(String action) {
