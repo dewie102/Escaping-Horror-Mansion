@@ -6,7 +6,7 @@ import com.horror.app.InputHandler;
 class QuitCommand implements Command{
     @Override
     public String execute(String noun) {
-        return String.format("Please enter command `quit` without any argument, Type `help` to list commands");
+        return ActionType.QUIT.getErrorMessage();
     }
 
     @Override

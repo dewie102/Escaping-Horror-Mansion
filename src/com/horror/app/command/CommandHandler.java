@@ -1,27 +1,34 @@
 package com.horror.app.command;
 
+import com.horror.app.Controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class CommandHandler {
-    public static String handleCommand(String userInput) {
-        try {
-            String[] commandArgs = userInput.split(" ");
+    public static void handleCommand(String userInput) {
 
-            if (commandArgs.length == 1 || commandArgs.length == 2) {
-                String action = commandArgs[0];
-                ActionType actionType = ActionType.valueOf(action.toUpperCase());
+        // will get ActionType and length of the verb used in the command
+        HashMap<ActionType, Integer> actionDetails = CommandSynonymHandler.getActionDetails(userInput);
+
+        // if command verb found
+        if (!actionDetails.isEmpty()) {
+            for (Map.Entry<ActionType, Integer> entry : actionDetails.entrySet()) {
+                ActionType actionType = entry.getKey();
+                int lengthOfMatchedWord = entry.getValue();
+
+                String itemName = userInput.substring(lengthOfMatchedWord).trim();
+
                 Command command = CommandFactory.getCommand(actionType);
-
-                if (commandArgs.length == 2) {
-                    String actionNoun = commandArgs[1];
-                    return command.execute(actionNoun);
+                
+                if (!itemName.equals("")) {
+                    Controller.displayHandler.setLastCommandOutput(command.execute(itemName));
                 } else {
-                    return command.execute();
+                    Controller.displayHandler.setLastCommandOutput(command.execute());
                 }
-            } else {
-                return "Command should be in `go(verb) south(noun)` format, please type `help` to list commands";
+                return;
             }
-        } catch (IllegalArgumentException e) {
-            return "Type `help` to list commands";
         }
-    }
-}
 
+        Controller.displayHandler.displayCommandNotRecognized();
+    }}

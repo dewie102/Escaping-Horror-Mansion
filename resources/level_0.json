@@ -10,14 +10,16 @@
       "bat": {
         "name": "Wooden Bat",
         "description": "Wooden BAT leaning against the wall",
-        "lookAtDescription": "You look at it closer... yup it's a bat alright"
+        "lookAtDescription": "You look at it closer... yup it's a bat alright",
+        "usable": true
       },
-      "carkey": {
+      "car key": {
         "name": "Car Key",
-        "description": "An old CARKEY",
+        "description": "An old CAR KEY",
         "lookAtDescription": "You look at the keys, you see a faded GM symbol on it",
         "hidden": true,
-        "hiddenLocation": "dresser"
+        "hiddenLocation": "dresser",
+        "usable": true
       }
     },
     "furnitureMap": {
@@ -36,16 +38,13 @@
     "name": "Living Room",
     "description": "You find yourself in the living room, a less-than-pleasant sight with faded wallpaper peeling off and untouched dust that likely hasn't been disturbed in years.",
     "neighborMap": {
-      "SOUTH": "bedroom"
+      "SOUTH": "bedroom",
+      "WEST": "garage",
+      "EAST": "kitchen",
+      "NORTH": "entrance"
     },
     "itemMap": {},
-    "enemyMap": {
-      "monster": {
-        "@type": "monster",
-        "name": "Living Room Monster",
-        "description": "Living Room Monster"
-      }
-    },
+    "enemyMap": {},
     "furnitureMap": {
       "couch": {
         "name": "Couch",
@@ -63,28 +62,30 @@
   },
   "library": {
     "name": "Library",
-    "description": "The library, a place where learning can occur, I wonder if there is anything that I could learn here",
+    "description": "You are in the library, a place where learning can occur, I wonder if there is anything that I could learn here",
     "neighborMap": {
-      "WEST": "bedroom"
+      "WEST": "bedroom",
+      "NORTH": "kitchen"
     },
     "itemMap": {
       "books": {
         "name": "Books",
         "description": "You see some BOOKS",
-        "lookAtDescription": "Taking a closer look, you see one book that looks out of place"
+        "lookAtDescription": "Taking a closer look, you see one book that looks out of place",
+        "usable": true
       }
     },
     "enemyMap": {
       "monster": {
-        "@type": "monster",
+        "type": "monster",
         "name": "Library Monster",
         "description": "Library Monster"
       }
     },
     "furnitureMap": {
-      "bookshelf": {
-        "name": "Bookshelf",
-        "description": "One creaky wooden BOOKSHELF, full of books"
+      "book shelf": {
+        "name": "Book shelf",
+        "description": "One creaky wooden BOOK SHELF, full of books"
       },
       "desk": {
         "name": "Desk",
@@ -95,5 +96,122 @@
         "description": "In the corner there is one comfy looking CHAIR that is used for reading"
       }
     }
+  },
+  "garage": {
+    "name": "Garage",
+    "description": "You are in the garage, an ancient, dusty space echoing with the creaks of time, where the air carries the scent of old tools.",
+    "neighborMap": {
+      "EAST": "livingroom"
+    },
+    "itemMap": {
+      "tools": {
+        "name": "Tools",
+        "description": "You see some TOOLS",
+        "lookAtDescription": "Taking a closer look, you see a bunch of random tools.",
+        "hidden": true,
+        "hiddenLocation": "toolbox",
+        "usable": true
+      },
+      "gun": {
+        "name": "Gun",
+        "description": "You spot a GUN on Storage Shelf",
+        "lookAtDescription": "Taking a closer look, you see an old gun with some bullets in it.",
+        "usable": true,
+        "canBeUsedOn": "monster"
+      }
+    },
+    "enemyMap": {
+      "monster": {
+        "type": "monster",
+        "name": "Garage Monster",
+        "description": "A scary MONSTER is in the garage, looking at you with big eyes."
+      }
+    },
+    "furnitureMap": {
+      "car": {
+        "name": "Car",
+        "description": "An old CAR with worn paint and a hint of rust, taking up space in the garage, I wonder if it still works!"
+      },
+      "storage shelf": {
+        "name": "Storage Shelf",
+        "description": "A standard STORAGE SHELF, filled with dusty boxes and forgotten odds and ends, stand quietly against the walls."
+      },
+      "toolbox": {
+        "name": "Toolbox",
+        "description": "A well-worn TOOLBOX tucked in the corner, scuffed and well-used, holds a jumble of rusty tools, each with its own tale of fixes and repairs from times gone by."
+      }
+    }
+  },
+  "kitchen": {
+    "name": "Kitchen",
+    "description": "You are in the kitchen, a once cozy hub with worn linoleum floors, a humming refrigerator and a recently disturbed countertop.",
+    "neighborMap": {
+      "WEST": "livingroom",
+      "SOUTH": "library"
+    },
+    "itemMap": {
+      "knife": {
+        "name": "Knife",
+        "description": "You see a sharp KNIFE",
+        "lookAtDescription": "Taking a closer look, you observe sharpness of the knife, its gleaming blade revealing a history of use and the potential for both danger and utility.",
+        "usable": true
+      },
+      "food": {
+        "name": "Food",
+        "description": "You see some FOOD items",
+        "lookAtDescription": "Examining it closely, you notice an assortment of edible items, promising a mix of flavors and satisfaction.",
+        "hidden": true,
+        "hiddenLocation": "refrigerator"
+      }
+    },
+    "furnitureMap": {
+      "refrigerator": {
+        "name": "Refrigerator",
+        "description": "Standard REFRIGERATOR with a few dents and magnets holding pictures on the door."
+      },
+      "drawers": {
+        "name": "Drawers",
+        "description": "All the DRAWERS look like your run of the mill kitchen drawers, except one that looks like it was left ajar."
+      }
+    }
+  },
+  "entrance": {
+    "name": "Entrance",
+    "description": "You are at the Entrance of the house and the door is locked.",
+    "neighborMap": {
+      "NORTH": "entranceWin",
+      "SOUTH": "livingroom"
+    },
+    "itemMap": {
+      "house key": {
+        "name": "House Key",
+        "description": "A crucial HOUSE KEY that holds the promise of unlocking the exit, your potential escape from the haunted house.",
+        "lookAtDescription": "Upon closer inspection, the house key appears ordinary yet holds the potential to reveal secrets as it gleams in the dim light.",
+        "hidden": true,
+        "hiddenLocation": "side table",
+        "usable": true,
+        "canBeUsedOn": "furniture"
+      }
+    },
+    "enemyMap": {},
+    "furnitureMap": {
+      "side table": {
+        "name": "Side Table",
+        "description": "A simple SIDE TABLE, weathered by time and use, standing unassumingly with subtle marks and memories etched into its surface"
+      },
+      "door": {
+        "name": "Front Entrance",
+        "description": "Portal to freedom.... if we could get out.",
+        "requires": "house key",
+        "unlocks": "entranceWin"
+      }
+    }
+  },
+  "entranceWin": {
+    "name": "Win",
+    "description": "You won the game!",
+    "locked": true,
+    "unlockItem": "house key",
+    "winsGame": true
   }
 }

@@ -20,6 +20,6 @@ class DropCommand implements Command {
 
     @Override
     public String execute() {
-        return Command.super.execute();
+        return ActionType.DROP.getErrorMessage();
     }
 }

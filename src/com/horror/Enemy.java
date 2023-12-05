@@ -3,6 +3,7 @@ package com.horror;
 public abstract class Enemy extends Character {
     
     private String description;
+    private final String type = null;
     
     public Enemy() {
         this("Default Name", new Room());

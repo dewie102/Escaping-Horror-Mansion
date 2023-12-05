@@ -28,7 +28,7 @@ class GetCommand implements Command {
 
     @Override
     public String execute() {
-        return Command.super.execute();
+        return ActionType.GET.getErrorMessage();
     }
 }
 

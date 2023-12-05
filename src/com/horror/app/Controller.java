@@ -1,176 +1,198 @@
 package com.horror.app;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import com.apps.util.Console;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
-import com.horror.Player;
-import com.horror.Room;
+import com.horror.*;
 import com.horror.app.command.CommandHandler;
 import com.horror.json.JsonTextLoader;
+import com.horror.json.JsonTextSaver;
 
 public class Controller {
     // Only need one scanner object, making it public static to be accessed anywhere
     public static Scanner scanner = new Scanner(System.in);
+
+    // Static displayHandler to be used whenever something needs to be displayed
+    public static DisplayHandler displayHandler;
+    // Static FilePaths
+    private static final String SAVED_ROOMS_FILE_PATH = "saved/savedRooms.json";
+    private static final String SAVED_PLAYER_FILE_PATH = "saved/savedPlayer.json";
     
     // All the game objects the controller keeps track of
     private Map<String, String> gameText;
     private Map<String, Room> rooms;
     private Player player;
     private int currentLevel = 0;
-    private String lastCommandOutput = "";
-    
+    private boolean foundSaveGame = true;
+    private boolean continuing = false;
+    public boolean readInsideJar = true;
     
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
-    
+    boolean wonGame = false;
+
     // Create a singleton that can be accessed anywhere
     private static Controller instance = null;
     private Controller() {
     }
-    
+
     public static Controller getInstance() {
         if(instance == null) {
             instance = new Controller();
         }
-        
-        return instance;
-    }
-    
-    public static void clearScreen() {
-        Console.clear();
-    }
 
-    private void printBanner() {
-        System.out.println(
-                "███████╗ ███████╗  ██████╗  █████╗  ██████╗  ██╗ ███╗   ██╗  ██████╗ \n" +
-                "██╔════╝ ██╔════╝ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║ ████╗  ██║ ██╔════╝ \n" +
-                "█████╗   ███████╗ ██║      ███████║ ██████╔╝ ██║ ██╔██╗ ██║ ██║  ███╗\n" +
-                "██╔══╝   ╚════██║ ██║      ██╔══██║ ██╔═══╝  ██║ ██║╚██╗██║ ██║   ██║\n" +
-                "███████╗ ███████║ ╚██████╗ ██║  ██║ ██║      ██║ ██║ ╚████║ ╚██████╔╝\n" +
-                "╚══════╝ ╚══════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═╝      ╚═╝ ╚═╝  ╚═══╝  ╚═════╝ \n"
-        );
-        
-        System.out.println(
-                "██╗  ██╗  ██████╗  ██████╗  ██████╗   ██████╗  ██████╗ \n" +
-                "██║  ██║ ██╔═══██╗ ██╔══██╗ ██╔══██╗ ██╔═══██╗ ██╔══██╗\n" +
-                "███████║ ██║   ██║ ██████╔╝ ██████╔╝ ██║   ██║ ██████╔╝\n" +
-                "██╔══██║ ██║   ██║ ██╔══██╗ ██╔══██╗ ██║   ██║ ██╔══██╗\n" +
-                "██║  ██║ ╚██████╔╝ ██║  ██║ ██║  ██║ ╚██████╔╝ ██║  ██║\n" +
-                "╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝\n"
-        );
-        
-        System.out.println(
-                "███╗   ███╗  █████╗  ███╗   ██╗ ███████╗ ██╗  ██████╗  ███╗   ██╗\n" +
-                "████╗ ████║ ██╔══██╗ ████╗  ██║ ██╔════╝ ██║ ██╔═══██╗ ████╗  ██║\n" +
-                "██╔████╔██║ ███████║ ██╔██╗ ██║ ███████╗ ██║ ██║   ██║ ██╔██╗ ██║\n" +
-                "██║╚██╔╝██║ ██╔══██║ ██║╚██╗██║ ╚════██║ ██║ ██║   ██║ ██║╚██╗██║\n" +
-                "██║ ╚═╝ ██║ ██║  ██║ ██║ ╚████║ ███████║ ██║ ╚██████╔╝ ██║ ╚████║\n" +
-                "╚═╝     ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═════╝  ╚═╝  ╚═══╝\n"
-        );
+        return instance;
     }
 
     private void printStory() {
-        System.out.println(gameText.get("backstory"));
-        System.out.println(gameText.get("introduction"));
+        displayHandler.displayTextClearBefore(gameText.get("backstory"), true);
+        displayHandler.displayTextClearBefore(gameText.get("introduction"), false);
     }
-    
-    private void printMenu() {
-        // Refactor this to be more dynamic, either from file or some enum or fixed array
-        System.out.println("Please choose one of the options from below.");
-        System.out.println("1. Start a New Game");
-        System.out.println("2. Quit");
-    }
-    
+
     private void printCharacterStatus() {
-        printCurrentRoomDescription();
-    
-        System.out.println();
-        player.displayInventory();
-        System.out.println();
+        displayHandler.displayTextClearBefore(getCurrentRoom().getFullDescription(), true);
+        displayHandler.displayTextClearBefore("\n" + player.getInventoryDisplayString(), false);
     }
 
     private void playGame() {
-        clearScreen();
-        printStory();
-        System.out.print("Press enter to continue: ");
-        scanner.nextLine();
-        
-        while (!isGameOver) {
-            clearScreen();
-            printCharacterStatus();
-            
-            System.out.println(lastCommandOutput);
-            System.out.println();
-            
-            System.out.print("> ");
-            String input = scanner.nextLine();
-            lastCommandOutput = CommandHandler.handleCommand(input);
+        if(!continuing) {
+            printStory();
+            displayHandler.displayEnterToContinuePrompt();
         }
         
+        while (!isGameOver) {
+            printCharacterStatus();
+
+            displayHandler.displayLastCommandOutput();
+            
+            displayHandler.displayPrompt();
+            String input = scanner.nextLine();
+            CommandHandler.handleCommand(input);
+        }
+
         exitGame();
     }
 
     // Maybe refactor this into a class?
-    private void handleMenuChoice() {
+    private void handleMenuChoice(List<MenuOption> options) throws IOException {
         boolean startPlaying = false;
         while (!startPlaying) {
-            System.out.print("Please enter your choice here: ");
-            String selectedOption = scanner.nextLine();
+            displayHandler.displayMainMenu(options);
+            displayHandler.displayMenuChoicePrompt();
+            String selectedOptionInput = scanner.nextLine();
+            
+            int selectedNumber;
+            try{
+                selectedNumber = Integer.parseInt(selectedOptionInput) - 1;
+            } catch(NumberFormatException e) {
+                displayHandler.displayInvalidMenuOptionSelected();
+                continue;
+            }
+            
+            if(selectedNumber < 0 || selectedNumber >= options.size()) {
+                displayHandler.displayInvalidMenuOptionSelected();
+                continue;
+            }
+            
+            MenuOption selectedOption = options.get(selectedNumber);
+            
             switch (selectedOption) {
-                case "1": // Play
+                case NEWGAME: // first element in the options list
                     startPlaying = true;
+                    loadNewGame(currentLevel);
+                    if (foundSaveGame) {
+                        Files.walk(Paths.get("saved"))
+                                .sorted(Comparator.reverseOrder())
+                                .map(Path::toFile)
+                                .forEach(File::delete);
+                    }
                     break;
-                case "2": // Quit
+                case QUIT: // // first element in the options list
                     CommandHandler.handleCommand("quit");
                     if(isGameOver) {
                         exitGame();
                     }
                     break;
+                case CONTINUE:
+                    startPlaying = true;
+                    loadSavedGame();
+                    continuing = true;
+                    break;
                 default:
-                    System.out.println("Please Enter a Valid Option.");
+                    displayHandler.displayInvalidMenuOptionSelected();
             }
         }
-    
+
         playGame();
     }
 
-    public void execute() {
+    public void execute() throws IOException {
         // Load in resources and create objects needed to start the game
         initialize();
-        
-        // Clear the screen and print the game title banner
-        clearScreen();
-        printBanner();
+
+        Controller.displayHandler.displayBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
-        System.out.print("Press Enter to Continue: ");
-        scanner.nextLine();
-        
-        printMenu();
-        handleMenuChoice();
+        displayHandler.displayEnterToContinuePrompt();
+
+        List<MenuOption> mainMenu = generateMainMenu();
+        handleMenuChoice(mainMenu);
+    }
+
+    private List<MenuOption> generateMainMenu() {
+        List<MenuOption> mainMenu = new ArrayList<>();
+
+        mainMenu.add(MenuOption.NEWGAME);
+        if(foundSaveGame) {
+            mainMenu.add(MenuOption.CONTINUE);
+        }
+        mainMenu.add(MenuOption.QUIT);
+
+        return mainMenu;
     }
     
-    private void initialize() {
-        gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
-        loadLevel(currentLevel);
-        player = new Player("George", rooms.get("bedroom"), new HashMap<>());
-    }
-    
-    private void loadLevel(int level) {
-        rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level));
+    private void loadNewGame(int level) {
+        rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level), readInsideJar);
         for(Room room : rooms.values()) {
             room.linkHiddenItemsToFurniture();
         }
+        player = new Player("George", rooms.get("bedroom"), new HashMap<>());
+    }
+
+    private void loadSavedGame() {
+        boolean readInsideJar = false;
+        rooms = JsonTextLoader.loadLevelFromFile(SAVED_ROOMS_FILE_PATH, readInsideJar);
+        for(Room room : rooms.values()) {
+            room.linkHiddenItemsToFurniture();
+        }
+        player = JsonTextLoader.loadPlayerFromFile(SAVED_PLAYER_FILE_PATH, readInsideJar);
+    }
+
+    private void initialize() {
+        foundSaveGame = lookForSavedGame();
+        gameText = JsonTextLoader.loadHashMapFromFile("/story.json", readInsideJar);
+        Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json", readInsideJar);
+    }
+    
+    private boolean lookForSavedGame() {
+        return Files.exists(Paths.get(SAVED_ROOMS_FILE_PATH)) && Files.exists(Paths.get(SAVED_PLAYER_FILE_PATH));
+    }
+
+    public void saveGame() {
+        JsonTextSaver.saveRoomMapToFile(rooms, SAVED_ROOMS_FILE_PATH);
+        JsonTextSaver.savePlayerToFile(player, SAVED_PLAYER_FILE_PATH);
     }
     
     public void exitGame() {
-        System.out.println("Quitting.... Thanks for playing!");
+        if(wonGame) {
+            displayHandler.displayWinScreen();
+        }
+        
+        displayHandler.displayQuit();
         System.exit(0);
-    }
-    
-    public void printCurrentRoomDescription() {
-        System.out.println(player.getCurrentRoom().getFullDescription());
     }
     
     public void setGameOver(boolean gameOver) {
@@ -187,5 +209,41 @@ public class Controller {
     
     public Player getPlayer() {
         return player;
+    }
+    
+    public void setWonGame(boolean won) {
+        wonGame = won;
+    }
+
+    public String useItem(String itemName) {
+        Usable item = player.getInventory().getOrDefault(itemName, null);
+
+        if (item != null) {
+            switch (item.use()) {
+                case MONSTER:
+                    if (getCurrentRoom().getEnemyMap().containsKey("monster")) {
+                        getCurrentRoom().getEnemyMap().remove("monster");
+                        return "You successfully defeated the monster!";
+                    } else {
+                        return "No monster in the room!";
+                    }
+                case FURNITURE:
+                    for(Furniture furn : getCurrentRoom().getFurnitureMap().values()) {
+                        if(itemName.equals(furn.getRequires())) {
+                            Room room = getRoomByName(furn.getUnlocks());
+                            room.setLocked(false);
+                            return String.format("You unlocked: %s", furn.getName());
+                        }
+                    }
+                    
+                    return "There is nothing to use this item on in this room";
+                case NULL:
+                default:
+                    return String.format("%s can not be used!", itemName);
+            }
+        } else {
+            return String.format("%s does not exist in your inventory!", itemName);
+        }
+
     }
 }
