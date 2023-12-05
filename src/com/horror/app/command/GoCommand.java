@@ -25,13 +25,8 @@ class GoCommand implements Command {
             if(nextRoomName != null) {
                 Room nextRoom = Controller.getInstance().getRoomByName(nextRoomName);
                 if(nextRoom.isLocked()) {
-                    if(Controller.getInstance().getPlayer().getInventory().containsKey(nextRoom.getUnlockItem())) {
-                        nextRoom.setLocked(false);
-                        Controller.getInstance().getPlayer().removeItemFromInventory(nextRoom.getUnlockItem());
-                    } else {
-                        return String.format("Sorry, this door appears locked, please obtain '%s'",
-                                nextRoom.getUnlockItem());
-                    }
+                    return String.format("Sorry, this door appears locked, please use '%s'",
+                            nextRoom.getUnlockItem());
                 }
                 DisplayHandler.clearScreen();
                 Controller.getInstance().getPlayer().goTo(nextRoom);
