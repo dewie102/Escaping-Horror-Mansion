@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import com.horror.Item;
 import com.horror.Player;
 import com.horror.Room;
 import com.horror.Usable;
@@ -22,8 +21,8 @@ public class Controller {
     // Static displayHandler to be used whenever something needs to be displayed
     public static DisplayHandler displayHandler;
     // Static FilePaths
-    private static final String SAVED_ROOMS_FILE_PATH = "resources/saved/savedRooms.json";
-    private static final String SAVED_PLAYER_FILE_PATH = "resources/saved/savedPlayer.json";
+    private static final String SAVED_ROOMS_FILE_PATH = "saved/savedRooms.json";
+    private static final String SAVED_PLAYER_FILE_PATH = "saved/savedPlayer.json";
     
     // All the game objects the controller keeps track of
     private Map<String, String> gameText;
@@ -34,9 +33,9 @@ public class Controller {
     private boolean continuing = false;
     public boolean readInsideJar = true;
     
-    
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
+    boolean wonGame = false;
 
     // Create a singleton that can be accessed anywhere
     private static Controller instance = null;
@@ -134,7 +133,7 @@ public class Controller {
     }
 
     public void execute() throws IOException {
-// Load in resources and create objects needed to start the game
+        // Load in resources and create objects needed to start the game
         initialize();
 
         Controller.displayHandler.displayBanner();
@@ -190,6 +189,10 @@ public class Controller {
     }
     
     public void exitGame() {
+        if(wonGame) {
+            displayHandler.displayWinScreen();
+        }
+        
         displayHandler.displayQuit();
         System.exit(0);
     }
@@ -208,6 +211,10 @@ public class Controller {
     
     public Player getPlayer() {
         return player;
+    }
+    
+    public void setWonGame(boolean won) {
+        wonGame = won;
     }
 
     public String useItem(String itemName) {

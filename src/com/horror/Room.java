@@ -13,6 +13,8 @@ public class Room {
     private boolean locked;
     private String unlockItem;
     
+    private boolean winsGame;
+    
     public Room() {
         this("Default Room", "Default Description");
     }
@@ -196,5 +198,9 @@ public class Room {
     
     public void setUnlockItem(String unlockItem) {
         this.unlockItem = unlockItem;
+    }
+    
+    public boolean winsGame() {
+        return winsGame;
     }
 }

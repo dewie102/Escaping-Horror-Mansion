@@ -18,6 +18,7 @@ public class DisplayHandler {
     private String commandNotRecognized;
     private String menuChoicePrompt;
     private String invalidMenuOptionSelected;
+    private String winScreen;
     private Map<String, String> mainMenu;
     private Map<String, List<String>> gameTitle;
 
@@ -87,13 +88,17 @@ public class DisplayHandler {
     }
     
     public void displayMenuChoicePrompt() {
-        System.out.println(menuChoicePrompt);
+        System.out.print(menuChoicePrompt);
     }
     
     public void displayInvalidMenuOptionSelected() {
         System.out.println(invalidMenuOptionSelected);
     }
-
+    
+    public void displayWinScreen() {
+        System.out.println(winScreen);
+    }
+    
     public void setLastCommandOutput(String output) {
         this.lastCommandOutput = output;
     }
