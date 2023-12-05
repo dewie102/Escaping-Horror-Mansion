@@ -22,12 +22,12 @@ public class Player extends Character {
         }
     }
     
-    public void displayInventory() {
+    public String getInventoryDisplayString() {
         String inventoryString = "Inventory: [ " +
                 String.join(", ", inventory.keySet()) +
                 " ]\n";
     
-        System.out.println(inventoryString);
+        return inventoryString;
     }
     
     public Map<String, Item> getInventory() {

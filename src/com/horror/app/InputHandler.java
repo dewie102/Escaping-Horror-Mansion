@@ -7,7 +7,7 @@ public class InputHandler {
         boolean quit = false;
         
         while (!validInput) {
-            System.out.print("Are you sure you want to quit the game [y/n]? : ");
+            Controller.displayHandler.displayConfirmQuitPrompt();
             String quitConfirm = Controller.scanner.nextLine().trim();
 
             if (quitConfirm.equalsIgnoreCase("y") || quitConfirm.equalsIgnoreCase("yes")) {
@@ -21,7 +21,7 @@ public class InputHandler {
                 validInput = true;
             }
             else {
-                System.out.println("Invalid response, please try again");
+                Controller.displayHandler.displayInvalidMenuOptionSelected();
             }
         }
         

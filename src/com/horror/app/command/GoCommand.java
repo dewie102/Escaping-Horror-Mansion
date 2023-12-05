@@ -2,6 +2,7 @@ package com.horror.app.command;
 
 import com.horror.Direction;
 import com.horror.app.Controller;
+import com.horror.app.DisplayHandler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +22,7 @@ class GoCommand implements Command {
             
             // If the room name exists, move the player into that room
             if(nextRoomName != null) {
-                Controller.clearScreen();
+                DisplayHandler.clearScreen();
                 Controller.getInstance().getPlayer().goTo(Controller.getInstance().getRoomByName(nextRoomName));
                 return "";
             } else { // If the direction provided doesn't lead to a room
@@ -35,6 +36,6 @@ class GoCommand implements Command {
 
     @Override
     public String execute() {
-        return "Please enter command with an argument, example: go [direction]. Type `help` to list commands";
+        return ActionType.GO.getErrorMessage();
     }
 }

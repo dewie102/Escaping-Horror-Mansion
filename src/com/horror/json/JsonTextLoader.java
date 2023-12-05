@@ -7,6 +7,7 @@ import com.horror.Enemy;
 import com.horror.Monster;
 import com.horror.Player;
 import com.horror.Room;
+import com.horror.app.DisplayHandler;
 import com.horror.app.command.ActionType;
 import com.horror.app.command.CommandSynonymHandler;
 
@@ -50,7 +51,7 @@ public class JsonTextLoader {
 
     public static HashMap<ActionType, HashSet<String>> loadActionTypeSynonymsFromFile(String filepath) {
         Gson gson = new Gson();
-        InputStream inStream = Objects.requireNonNull(CommandSynonymHandler.class.getResourceAsStream(filepath));
+        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
         JsonReader reader = new JsonReader(new InputStreamReader(inStream));
         return gson.fromJson(reader, new TypeToken<HashMap<ActionType, HashSet<String>>>(){}.getType());
     }
@@ -67,5 +68,13 @@ public class JsonTextLoader {
         InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
         JsonReader reader = new JsonReader(new InputStreamReader(inStream));
         return gson.fromJson(reader, Player.class);
+    }
+
+    public static DisplayHandler loadDisplayHandlerClass(String filepath) {
+        Gson gson = new Gson();
+        InputStream inStream = Objects.requireNonNull(JsonTextLoader.class.getResourceAsStream(filepath));
+        JsonReader reader = new JsonReader(new InputStreamReader(inStream));
+
+        return gson.fromJson(reader, DisplayHandler.class);
     }
 }

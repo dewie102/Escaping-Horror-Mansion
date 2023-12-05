@@ -1,9 +1,6 @@
 package com.horror.app;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import com.apps.util.Console;
+import java.util.*;
 
 import com.horror.Player;
 import com.horror.Room;
@@ -15,14 +12,17 @@ public class Controller {
     // Only need one scanner object, making it public static to be accessed anywhere
     public static Scanner scanner = new Scanner(System.in);
 
+    // Static displayHandler to be used whenever something needs to be displayed
+    public static DisplayHandler displayHandler;
+    
     // All the game objects the controller keeps track of
     private Map<String, String> gameText;
     private Map<String, Room> rooms;
     private Player player;
     private int currentLevel = 0;
-    private String lastCommandOutput = "";
-
-
+    private boolean foundSaveGame = false;
+    
+    
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
 
@@ -39,98 +39,71 @@ public class Controller {
         return instance;
     }
 
-    public static void clearScreen() {
-        Console.clear();
-    }
-
-    private void printBanner() {
-        System.out.println(
-                "███████╗ ███████╗  ██████╗  █████╗  ██████╗  ██╗ ███╗   ██╗  ██████╗ \n" +
-                "██╔════╝ ██╔════╝ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║ ████╗  ██║ ██╔════╝ \n" +
-                "█████╗   ███████╗ ██║      ███████║ ██████╔╝ ██║ ██╔██╗ ██║ ██║  ███╗\n" +
-                "██╔══╝   ╚════██║ ██║      ██╔══██║ ██╔═══╝  ██║ ██║╚██╗██║ ██║   ██║\n" +
-                "███████╗ ███████║ ╚██████╗ ██║  ██║ ██║      ██║ ██║ ╚████║ ╚██████╔╝\n" +
-                "╚══════╝ ╚══════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═╝      ╚═╝ ╚═╝  ╚═══╝  ╚═════╝ \n"
-        );
-
-        System.out.println(
-                "██╗  ██╗  ██████╗  ██████╗  ██████╗   ██████╗  ██████╗ \n" +
-                "██║  ██║ ██╔═══██╗ ██╔══██╗ ██╔══██╗ ██╔═══██╗ ██╔══██╗\n" +
-                "███████║ ██║   ██║ ██████╔╝ ██████╔╝ ██║   ██║ ██████╔╝\n" +
-                "██╔══██║ ██║   ██║ ██╔══██╗ ██╔══██╗ ██║   ██║ ██╔══██╗\n" +
-                "██║  ██║ ╚██████╔╝ ██║  ██║ ██║  ██║ ╚██████╔╝ ██║  ██║\n" +
-                "╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝\n"
-        );
-
-        System.out.println(
-                "███╗   ███╗  █████╗  ███╗   ██╗ ███████╗ ██╗  ██████╗  ███╗   ██╗\n" +
-                "████╗ ████║ ██╔══██╗ ████╗  ██║ ██╔════╝ ██║ ██╔═══██╗ ████╗  ██║\n" +
-                "██╔████╔██║ ███████║ ██╔██╗ ██║ ███████╗ ██║ ██║   ██║ ██╔██╗ ██║\n" +
-                "██║╚██╔╝██║ ██╔══██║ ██║╚██╗██║ ╚════██║ ██║ ██║   ██║ ██║╚██╗██║\n" +
-                "██║ ╚═╝ ██║ ██║  ██║ ██║ ╚████║ ███████║ ██║ ╚██████╔╝ ██║ ╚████║\n" +
-                "╚═╝     ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═════╝  ╚═╝  ╚═══╝\n"
-        );
-    }
-
     private void printStory() {
-        System.out.println(gameText.get("backstory"));
-        System.out.println(gameText.get("introduction"));
-    }
-
-    private void printMenu() {
-        // Refactor this to be more dynamic, either from file or some enum or fixed array
-        System.out.println("Please choose one of the options from below.");
-        System.out.println("1. Start a New Game");
-        System.out.println("2. Quit");
+        displayHandler.displayTextClearBefore(gameText.get("backstory"), true);
+        displayHandler.displayTextClearBefore(gameText.get("introduction"), false);
     }
 
     private void printCharacterStatus() {
-        printCurrentRoomDescription();
-
-        System.out.println();
-        player.displayInventory();
-        System.out.println();
+        displayHandler.displayTextClearBefore(getCurrentRoom().getFullDescription(), true);
+        displayHandler.displayTextClearBefore("\n" + player.getInventoryDisplayString(), false);
     }
 
     private void playGame() {
-        clearScreen();
         printStory();
-        System.out.print("Press enter to continue: ");
-        scanner.nextLine();
-
+        displayHandler.displayEnterToContinuePrompt();
+        
         while (!isGameOver) {
-            clearScreen();
             printCharacterStatus();
 
-            System.out.println(lastCommandOutput);
-            System.out.println();
-
-            System.out.print("> ");
+            displayHandler.displayLastCommandOutput();
+            
+            displayHandler.displayPrompt();
             String input = scanner.nextLine();
-            lastCommandOutput = CommandHandler.handleCommand(input);
+            CommandHandler.handleCommand(input);
         }
 
         exitGame();
     }
 
     // Maybe refactor this into a class?
-    private void handleMenuChoice() {
+    private void handleMenuChoice(List<MenuOption> options) {
         boolean startPlaying = false;
         while (!startPlaying) {
-            System.out.print("Please enter your choice here: ");
-            String selectedOption = scanner.nextLine();
+            displayHandler.displayMainMenu(options);
+            displayHandler.displayMenuChoicePrompt();
+            String selectedOptionInput = scanner.nextLine();
+            
+            int selectedNumber;
+            try{
+                selectedNumber = Integer.parseInt(selectedOptionInput) - 1;
+            } catch(NumberFormatException e) {
+                displayHandler.displayInvalidMenuOptionSelected();
+                continue;
+            }
+            
+            if(selectedNumber < 0 || selectedNumber >= options.size()) {
+                displayHandler.displayInvalidMenuOptionSelected();
+                continue;
+            }
+            
+            MenuOption selectedOption = options.get(selectedNumber);
+            
             switch (selectedOption) {
-                case "1": // Play
+                case NEWGAME: // first element in the options list
                     startPlaying = true;
                     break;
-                case "2": // Quit
+                case QUIT: // // first element in the options list
                     CommandHandler.handleCommand("quit");
                     if(isGameOver) {
                         exitGame();
                     }
                     break;
+                case CONTINUE:
+                    // TODO: change this for continue action/ prompt
+                    System.out.println("do something");
                 default:
-                    System.out.println("Please Enter a Valid Option.");
+                    displayHandler.displayInvalidMenuOptionSelected();
             }
         }
 
@@ -142,15 +115,24 @@ public class Controller {
         initialize();
 //        loadSavedGame();
 
-        // Clear the screen and print the game title banner
-        clearScreen();
-        printBanner();
+        Controller.displayHandler.displayBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
-        System.out.print("Press Enter to Continue: ");
-        scanner.nextLine();
+        displayHandler.displayEnterToContinuePrompt();
 
-        printMenu();
-        handleMenuChoice();
+        List<MenuOption> mainMenu = generateMainMenu();
+        handleMenuChoice(mainMenu);
+    }
+
+    private List<MenuOption> generateMainMenu() {
+        List<MenuOption> mainMenu = new ArrayList<>();
+
+        mainMenu.add(MenuOption.NEWGAME);
+        if(foundSaveGame) {
+            mainMenu.add(MenuOption.CONTINUE);
+        }
+        mainMenu.add(MenuOption.QUIT);
+
+        return mainMenu;
     }
 
     private void loadSavedGame() {
@@ -166,6 +148,8 @@ public class Controller {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
         loadLevel(currentLevel);
         player = new Player("George", rooms.get("bedroom"), new HashMap<>());
+
+        Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
     }
 
     private void loadLevel(int level) {
@@ -181,12 +165,8 @@ public class Controller {
     }
     
     public void exitGame() {
-        System.out.println("Quitting.... Thanks for playing!");
+        displayHandler.displayQuit();
         System.exit(0);
-    }
-    
-    public void printCurrentRoomDescription() {
-        System.out.println(player.getCurrentRoom().getFullDescription());
     }
     
     public void setGameOver(boolean gameOver) {
