@@ -6,6 +6,7 @@ import com.horror.Player;
 import com.horror.Room;
 import com.horror.app.command.CommandHandler;
 import com.horror.json.JsonTextLoader;
+import com.horror.json.JsonTextSaver;
 
 public class Controller {
     // Only need one scanner object, making it public static to be accessed anywhere
@@ -24,17 +25,17 @@ public class Controller {
     
     // Variable to keep track if we are still playing or not
     boolean isGameOver = false;
-    
+
     // Create a singleton that can be accessed anywhere
     private static Controller instance = null;
     private Controller() {
     }
-    
+
     public static Controller getInstance() {
         if(instance == null) {
             instance = new Controller();
         }
-        
+
         return instance;
     }
 
@@ -42,7 +43,7 @@ public class Controller {
         displayHandler.displayTextClearBefore(gameText.get("backstory"), true);
         displayHandler.displayTextClearBefore(gameText.get("introduction"), false);
     }
-    
+
     private void printCharacterStatus() {
         displayHandler.displayTextClearBefore(getCurrentRoom().getFullDescription(), true);
         displayHandler.displayTextClearBefore("\n" + player.getInventoryDisplayString(), false);
@@ -61,7 +62,7 @@ public class Controller {
             String input = scanner.nextLine();
             CommandHandler.handleCommand(input);
         }
-        
+
         exitGame();
     }
 
@@ -105,7 +106,7 @@ public class Controller {
                     displayHandler.displayInvalidMenuOptionSelected();
             }
         }
-    
+
         playGame();
     }
 
@@ -132,7 +133,7 @@ public class Controller {
 
         return mainMenu;
     }
-    
+
     private void initialize() {
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
         loadLevel(currentLevel);
@@ -140,12 +141,17 @@ public class Controller {
 
         Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
     }
-    
+
     private void loadLevel(int level) {
         rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level));
         for(Room room : rooms.values()) {
             room.linkHiddenItemsToFurniture();
         }
+    }
+
+    public void saveGame() {
+        JsonTextSaver.saveRoomMapToFile(rooms, "resources/saved", "savedRooms.json");
+        JsonTextSaver.savePlayerToFile(player, "resources/saved", "savedPlayer.json");
     }
     
     public void exitGame() {

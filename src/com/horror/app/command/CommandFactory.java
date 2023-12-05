@@ -26,6 +26,9 @@ class CommandFactory {
                 case HELP:
                     commandStorage.put(ActionType.HELP, new HelpCommand());
                     return commandStorage.get(ActionType.HELP);
+                case SAVE:
+                    commandStorage.put(ActionType.SAVE, new SaveCommand());
+                    return commandStorage.get(ActionType.SAVE);
                 case QUIT:
                     commandStorage.put(ActionType.QUIT, new QuitCommand());
                     return commandStorage.get(ActionType.QUIT);
