@@ -7,8 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import com.horror.Item;
 import com.horror.Player;
 import com.horror.Room;
+import com.horror.Usable;
 import com.horror.app.command.CommandHandler;
 import com.horror.json.JsonTextLoader;
 import com.horror.json.JsonTextSaver;
@@ -209,5 +211,27 @@ public class Controller {
     
     public Player getPlayer() {
         return player;
+    }
+
+    public String useItem(String itemName) {
+        Usable item= player.getInventory().getOrDefault(itemName, null);
+
+        if (item != null) {
+            switch (item.use()) {
+                case MONSTER:
+                    if (getCurrentRoom().getEnemyMap().containsKey("monster")) {
+                        getCurrentRoom().getEnemyMap().remove("monster");
+                        return "You successfully defeated the monster!";
+                    } else {
+                        return "No monster in the room!";
+                    }
+                case NULL:
+                default:
+                    return String.format("%s can not be used!", itemName);
+            }
+        } else {
+            return String.format("%s does not exist in your inventory!", itemName);
+        }
+
     }
 }

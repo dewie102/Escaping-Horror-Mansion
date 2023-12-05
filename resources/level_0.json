@@ -10,14 +10,16 @@
       "bat": {
         "name": "Wooden Bat",
         "description": "Wooden BAT leaning against the wall",
-        "lookAtDescription": "You look at it closer... yup it's a bat alright"
+        "lookAtDescription": "You look at it closer... yup it's a bat alright",
+        "usable": true
       },
       "car key": {
         "name": "Car Key",
         "description": "An old CAR KEY",
         "lookAtDescription": "You look at the keys, you see a faded GM symbol on it",
         "hidden": true,
-        "hiddenLocation": "dresser"
+        "hiddenLocation": "dresser",
+        "usable": true
       }
     },
     "furnitureMap": {
@@ -75,7 +77,8 @@
       "books": {
         "name": "Books",
         "description": "You see some BOOKS",
-        "lookAtDescription": "Taking a closer look, you see one book that looks out of place"
+        "lookAtDescription": "Taking a closer look, you see one book that looks out of place",
+        "usable": true
       }
     },
     "enemyMap": {
@@ -112,12 +115,15 @@
         "description": "You see some TOOLS",
         "lookAtDescription": "Taking a closer look, you see a bunch of random tools.",
         "hidden": true,
-        "hiddenLocation": "toolbox"
+        "hiddenLocation": "toolbox",
+        "usable": true
       },
       "gun": {
         "name": "Gun",
         "description": "You spot a GUN on Storage Shelf",
-        "lookAtDescription": "Taking a closer look, you see an old gun with some bullets in it."
+        "lookAtDescription": "Taking a closer look, you see an old gun with some bullets in it.",
+        "usable": true,
+        "canBeUsedOn": "monster"
       }
     },
     "enemyMap": {
@@ -153,7 +159,8 @@
       "knife": {
         "name": "Knife",
         "description": "You see a sharp KNIFE",
-        "lookAtDescription": "Taking a closer look, you observe sharpness of the knife, its gleaming blade revealing a history of use and the potential for both danger and utility."
+        "lookAtDescription": "Taking a closer look, you observe sharpness of the knife, its gleaming blade revealing a history of use and the potential for both danger and utility.",
+        "usable": true
       },
       "food": {
         "name": "Food",
@@ -187,7 +194,8 @@
         "description": "A crucial HOUSE KEY that holds the promise of unlocking the exit, your potential escape from the haunted house.",
         "lookAtDescription": "Upon closer inspection, the house key appears ordinary yet holds the potential to reveal secrets as it gleams in the dim light.",
         "hidden": true,
-        "hiddenLocation": "side table"
+        "hiddenLocation": "side table",
+        "usable": true
       }
     },
     "enemyMap": {
