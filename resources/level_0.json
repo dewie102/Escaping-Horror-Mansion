@@ -66,7 +66,7 @@
   },
   "library": {
     "name": "Library",
-    "description": "The library, a place where learning can occur, I wonder if there is anything that I could learn here",
+    "description": "You are in the library, a place where learning can occur, I wonder if there is anything that I could learn here",
     "neighborMap": {
       "WEST": "bedroom",
       "NORTH": "kitchen"

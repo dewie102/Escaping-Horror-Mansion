@@ -20,7 +20,8 @@ public class Controller {
     private Map<String, Room> rooms;
     private Player player;
     private int currentLevel = 0;
-    private boolean foundSaveGame = false;
+    private boolean foundSaveGame = true;
+    private boolean continuing = false;
     
     
     // Variable to keep track if we are still playing or not
@@ -50,8 +51,10 @@ public class Controller {
     }
 
     private void playGame() {
-        printStory();
-        displayHandler.displayEnterToContinuePrompt();
+        if(!continuing) {
+            printStory();
+            displayHandler.displayEnterToContinuePrompt();
+        }
         
         while (!isGameOver) {
             printCharacterStatus();
@@ -92,6 +95,7 @@ public class Controller {
             switch (selectedOption) {
                 case NEWGAME: // first element in the options list
                     startPlaying = true;
+                    loadNewGame(currentLevel);
                     break;
                 case QUIT: // // first element in the options list
                     CommandHandler.handleCommand("quit");
@@ -100,8 +104,10 @@ public class Controller {
                     }
                     break;
                 case CONTINUE:
-                    // TODO: change this for continue action/ prompt
-                    System.out.println("do something");
+                    startPlaying = true;
+                    loadSavedGame();
+                    continuing = true;
+                    break;
                 default:
                     displayHandler.displayInvalidMenuOptionSelected();
             }
@@ -112,8 +118,7 @@ public class Controller {
 
     public void execute() {
 // Load in resources and create objects needed to start the game
-//        initialize();
-        loadSavedGame();
+        initialize();
 
         Controller.displayHandler.displayBanner();
         // Prompt user to hit enter, doesn't matter what they type, just wait for the enter key
@@ -134,30 +139,36 @@ public class Controller {
 
         return mainMenu;
     }
+    
+    private void loadNewGame(int level) {
+        rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level));
+        for(Room room : rooms.values()) {
+            room.linkHiddenItemsToFurniture();
+        }
+        player = new Player("George", rooms.get("bedroom"), new HashMap<>());
+    }
 
     private void loadSavedGame() {
-        gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
         rooms = JsonTextLoader.loadLevelFromFile(String.format("/saved/savedRooms.json", currentLevel));
         for(Room room : rooms.values()) {
             room.linkHiddenItemsToFurniture();
         }
         player = JsonTextLoader.loadPlayerFromFile("/saved/savedPlayer.json");
-        Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
     }
 
     private void initialize() {
+        foundSaveGame = lookForSavedGame();
         gameText = JsonTextLoader.loadHashMapFromFile("/story.json");
-        loadLevel(currentLevel);
-        player = new Player("George", rooms.get("bedroom"), new HashMap<>());
-
         Controller.displayHandler = JsonTextLoader.loadDisplayHandlerClass("/display_text.json");
     }
-
-    private void loadLevel(int level) {
-        rooms = JsonTextLoader.loadLevelFromFile(String.format("/level_%s.json", level));
-        for(Room room : rooms.values()) {
-            room.linkHiddenItemsToFurniture();
-        }
+    
+    private boolean lookForSavedGame() {
+        boolean found = false;
+    
+        // TODO: check for saved game and set found appropriately
+        // get directory of saved in resources and check if both files exist
+        
+        return found;
     }
 
     public void saveGame() {
