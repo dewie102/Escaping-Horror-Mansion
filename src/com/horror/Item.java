@@ -1,5 +1,7 @@
 package com.horror;
 
+import com.horror.app.Controller;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ public class Item implements Lookable, Usable {
     @Override
     public UsedOn use() {
         if (usable) {
-            System.out.println(getName() + "can be used on " + getCanBeUsedOn());
+            Controller.displayHandler.displayTextClearBefore(getName() + "can be used on " + getCanBeUsedOn(), false);
             try {
                 return UsedOn.valueOf(canBeUsedOn.toUpperCase());
             } catch (IllegalArgumentException e) {

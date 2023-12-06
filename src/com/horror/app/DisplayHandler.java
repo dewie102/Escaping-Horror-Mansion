@@ -19,6 +19,8 @@ public class DisplayHandler {
     private String menuChoicePrompt;
     private String invalidMenuOptionSelected;
     private String winScreen;
+    private String gameSaved;
+    private String confirmSaveGame;
     private Map<String, String> mainMenu;
     private Map<String, List<String>> gameTitle;
 
@@ -97,6 +99,14 @@ public class DisplayHandler {
     
     public void displayWinScreen() {
         System.out.println(winScreen);
+    }
+    
+    public void displayGameSaved() {
+        System.out.println(gameSaved);
+    }
+    
+    public void displayConfirmSaveGame() {
+        System.out.print(confirmSaveGame);
     }
     
     public void setLastCommandOutput(String output) {
