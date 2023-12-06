@@ -25,7 +25,7 @@
     "furnitureMap": {
       "bed": {
         "name": "Bed",
-        "description": "an old, creaky BED that has seen better days",
+        "description": "An old, creaky BED that has seen better days",
         "lookAtDescription": "You look at the bed and see a body shaped indent along with bugs everywhere.... the thought of you sleeping there gives you the shivers"
       },
       "dresser": {
@@ -70,7 +70,7 @@
     "itemMap": {
       "books": {
         "name": "Books",
-        "description": "You see some BOOKS",
+        "description": "The BOOKS are a collection of various stories and information, each one having its own cover, title, and pages filled with words and pictures.",
         "lookAtDescription": "Taking a closer look, you see one book that looks out of place",
         "usable": true
       }
@@ -79,7 +79,7 @@
       "monster": {
         "type": "monster",
         "name": "Library Monster",
-        "description": "Library Monster"
+        "description": "A MONSTER, mysterious guardian of knowledge with shiny eyes that hold the stories of many tales."
       }
     },
     "furnitureMap": {
@@ -152,13 +152,13 @@
     "itemMap": {
       "knife": {
         "name": "Knife",
-        "description": "You see a sharp KNIFE",
+        "description": "sharp and shiny KNIFE",
         "lookAtDescription": "Taking a closer look, you observe sharpness of the knife, its gleaming blade revealing a history of use and the potential for both danger and utility.",
         "usable": true
       },
       "food": {
         "name": "Food",
-        "description": "You see some FOOD items",
+        "description": "FOOD items",
         "lookAtDescription": "Examining it closely, you notice an assortment of edible items, promising a mix of flavors and satisfaction.",
         "hidden": true,
         "hiddenLocation": "refrigerator"
