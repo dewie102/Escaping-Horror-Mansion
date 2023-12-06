@@ -15,7 +15,7 @@ public class InputHandler {
                 quit = true;
                 if (confirmSave()) {
                     Controller.getInstance().saveGame();
-                    System.out.println("Game has been saved!");
+                    Controller.displayHandler.displayGameSaved();
                 }
             } else if (quitConfirm.equalsIgnoreCase("n") || quitConfirm.equalsIgnoreCase("no")) {
                 validInput = true;
@@ -33,7 +33,7 @@ public class InputHandler {
         boolean save = false;
 
         while (!validInput) {
-            System.out.print("Do you want to save the game [y/n]? : ");
+            Controller.displayHandler.displayConfirmSaveGame();
             String saveConfirm = Controller.scanner.nextLine().trim();
 
             if (saveConfirm.equalsIgnoreCase("y") || saveConfirm.equalsIgnoreCase("yes")) {
@@ -43,7 +43,7 @@ public class InputHandler {
                 validInput = true;
             }
             else {
-                System.out.println("Invalid response, please try again");
+                Controller.displayHandler.displayInvalidMenuOptionSelected();
             }
         }
 
