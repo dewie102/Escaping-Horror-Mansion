@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.horror.Player;
 import com.horror.Room;
+import com.horror.app.Controller;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -23,14 +24,14 @@ public class JsonTextSaver {
         try {
             Files.createDirectories(filePath.getParent());
         } catch (IOException e) {
-            System.out.println("Error creating directory: " + e.getMessage());
+            Controller.displayHandler.displayTextClearBefore("Error creating directory: " + e.getMessage(), false);
             return;
         }
 
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             writer.write(jsonString);
         } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
+            Controller.displayHandler.displayTextClearBefore("Error writing to file: " + e.getMessage(), false);
         }
     }
 

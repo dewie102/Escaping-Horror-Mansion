@@ -38,5 +38,7 @@
   "commandNotRecognized": "Type `help` to list commands",
   "menuChoicePrompt": "Please enter your choice here: ",
   "invalidMenuOptionSelected": "Invalid Response, Please Enter a Valid Option.",
-  "winScreen": "You won the game!\nGood Job!"
+  "winScreen": "You won the game!\nGood Job!",
+  "gameSaved": "Game has been saved!",
+  "confirmSaveGame": "Do you want to save the game [y/n]? : "
 }
